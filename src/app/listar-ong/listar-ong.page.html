@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Lista de ONGs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button size="default" expand="block" routerLink="/cadastrar-ong">
+          Adicionar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row size-lg="3" size-xs="12" *ngFor="let item of retorno; let pos = index">
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{item.nome_fantasia}}</ion-card-title>
+            <ion-card-subtitle>{{item.email}}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>{{item.descricao}}</ion-card-content>
+
+          <ion-button fill="clear" (click)="editarOng(item.id)">Editar</ion-button>
+          <ion-button fill="clear" (click)="confirmaExclusao(item.id)">Excluir</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

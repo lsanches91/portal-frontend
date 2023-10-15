@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ home }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ home }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="4" offset-lg="4" size-sm="12" offset-sm="0">
+        <ion-input label="Buscar Cidade" label-placement="floating" fill="solid" placeholder="Ex: Presidente Epitácio"></ion-input>
+      </ion-col>      
+    </ion-row>
+    <ion-row *ngFor="let item of retorno; let pos = index">      
+      <ion-col size-lg="3" size-xs="12" *ngFor="let animal of item.animal; let pos = index">        
+        <ion-card >
+          <img alt="Silhouette of mountains" src="{{animal.foto_path}}" width="100%" height="200px"/>
+          <ion-card-header>
+            <ion-card-title>{{animal.nome}}</ion-card-title>
+            <ion-card-subtitle>{{item.nome_fantasia}}</ion-card-subtitle>
+          </ion-card-header>
+        
+          <ion-card-content>
+            {{animal.descricao}}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>     
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

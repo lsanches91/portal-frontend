@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Cadastro de Ong</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Adicionando ONG</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
+        <ion-list style="padding: 15px;">
+          <ion-item>
+            <ion-input label="Nome Fantasia" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.nome_fantasia"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CNPJ" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.cnpj"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Email" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Telefone" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.telefone"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Logradouro" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.logradouro"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Número" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.numero"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Bairro" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.bairro"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CEP" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.cep"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="UF" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.uf"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Descrição" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.descricao"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Situação" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.situacao"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Logo" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.logo_path"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
+        <ion-button size="default" expand="block" (click)="enviaOng()">Cadastrar</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
+        <ion-button size="default" expand="block" fill="outline" routerLink="/listar-ong">Voltar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
