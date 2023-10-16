@@ -1,0 +1,76 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button default-href="#"></ion-back-button>
+  </ion-buttons>
+  <ion-title>Cadastro</ion-title>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-item>
+      <ion-input label="Nome*" labelPlacement="floating" placeholder="Insira o nome" [(ngModel)]="nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="CPF*" labelPlacement="floating" placeholder="Insira o CPF" [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate" [(ngModel)]="cpf"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Celular*" labelPlacement="floating" placeholder="Insira o número de celuar" [maskito]="telMask"
+        [maskitoElement]="maskPredicate" [(ngModel)]="celular"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Email*" labelPlacement="floating" placeholder="Insira o email" type="email" [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Senha*" labelPlacement="floating" placeholder="Insira a senha" type="password" [(ngModel)]="senha"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Confirmar Senha*" labelPlacement="floating" placeholder="Insira a senha"
+        type="password" [(ngModel)]="confirmaSenha"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="CEP" labelPlacement="floating" placeholder="Insira o CEP" [(ngModel)]="cep"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Logradouro" labelPlacement="floating" placeholder="Insira a logradouro" [(ngModel)]="logradouro"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Bairro" labelPlacement="floating" placeholder="Insira a bairro"
+        style="width: 150%;" [(ngModel)]="bairro"></ion-input>
+      <ion-input label="Numero" labelPlacement="floating" placeholder="Insira o numero" [(ngModel)]="numero"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Cidade" labelPlacement="floating" placeholder="Insira a cidade" style="width: 150%;"></ion-input>
+      <ion-select label="Estado" label-placement="floating" searchable="true" searchIcon="search" [(ngModel)]="uf">
+        <ion-select-option value="AC">Acre</ion-select-option>
+        <ion-select-option value="AL">Alagoas</ion-select-option>
+        <ion-select-option value="AP">Amapá</ion-select-option>
+        <ion-select-option value="AM">Amazonas</ion-select-option>
+        <ion-select-option value="BA">Bahia</ion-select-option>
+        <ion-select-option value="CE">Ceará</ion-select-option>
+        <ion-select-option value="DF">Distrito Federal</ion-select-option>
+        <ion-select-option value="ES">Espírito Santo</ion-select-option>
+        <ion-select-option value="GO">Goiás</ion-select-option>
+        <ion-select-option value="MA">Maranhão</ion-select-option>
+        <ion-select-option value="MT">Mato Grosso</ion-select-option>
+        <ion-select-option value="MS">Mato Grosso do Sul</ion-select-option>
+        <ion-select-option value="MG">Minas Gerais</ion-select-option>
+        <ion-select-option value="PA">Pará</ion-select-option>
+        <ion-select-option value="PB">Paraíba</ion-select-option>
+        <ion-select-option value="PR">Paraná</ion-select-option>
+        <ion-select-option value="PE">Pernambuco</ion-select-option>
+        <ion-select-option value="PI">Piauí</ion-select-option>
+        <ion-select-option value="RJ">Rio de Janeiro</ion-select-option>
+        <ion-select-option value="RN">Rio Grande do Norte</ion-select-option>
+        <ion-select-option value="RS">Rio Grande do Sul</ion-select-option>
+        <ion-select-option value="RO">Rondônia</ion-select-option>
+        <ion-select-option value="RR">Roraima</ion-select-option>
+        <ion-select-option value="SC">Santa Catarina</ion-select-option>
+        <ion-select-option value="SP">São Paulo</ion-select-option>
+        <ion-select-option value="SE">Sergipe</ion-select-option>
+        <ion-select-option value="TO">Tocantins</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+  <ion-button color="success" expand="full" (click)="cadastrar()">Cadastrar</ion-button>
+</ion-content>

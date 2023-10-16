@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class OngService {
 
-  private urlBase:string = 'https://backend-portal-y4f9.onrender.com';
+  private urlBase:string = 'http://localhost:3333';
 
   public retorno:any = {};
 
