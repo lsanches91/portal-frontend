@@ -20,7 +20,7 @@ export class UsuarioService {
   
     async cadastrar(user: any) {
       return this.http
-        .post<boolean>('http://localhost:3333/usuario', user)
+        .post<boolean>('https://backend-portal-y4f9.onrender.com', user)
         .toPromise()
         .then(() => {
           return true;
@@ -33,7 +33,7 @@ export class UsuarioService {
     async login(email:string, senha:string) {
       var credenciais = {email: email, senha:senha}
       return this.http
-        .post<boolean>('http://localhost:3333/login', credenciais)
+        .post<boolean>('https://backend-portal-y4f9.onrender.com/login', credenciais)
         .toPromise()
         .then(() => {
           return true;
