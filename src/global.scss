@@ -38,3 +38,13 @@ ion-card.ion-active {
         /* ou qualquer outra cor desejada */
     }
 }
+
+:root {
+    ion-img {
+        /** 
+       * Bug fix for:
+       * https://github.com/ionic-team/ionic/issues/18734
+       */
+        min-height: 1px !important;
+    }
+}
