@@ -3,18 +3,23 @@
     <ion-card>
       <!--<img alt="Logo PAPA" src="../../assets/papa-logo.png" /> -->
       <ion-card-content>
+        <div class="login-logo">
+          <ion-img src="../../assets/icon/logo.png" alt="Logo do sistema"></ion-img>
+        </div>
         <ion-item>
-          <ion-input label="Email" labelPlacement="floating" placeholder="Insira o email" type="email" [(ngModel)]="email"></ion-input>
+          <ion-input label="Email" labelPlacement="floating" placeholder="Insira o email" type="email"
+            (keydown.enter)="logar()" [(ngModel)]="email"></ion-input>
           <ion-icon name="person-outline"></ion-icon>
         </ion-item>
         <ion-item>
-          <ion-input label="Senha" labelPlacement="floating" placeholder="Insira a senha" type="password" [(ngModel)]="senha"></ion-input>
+          <ion-input label="Senha" labelPlacement="floating" placeholder="Insira a senha" type="password"
+            (keydown.enter)="logar()" [(ngModel)]="senha"></ion-input>
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
-        <ion-button color="dark" fill="clear" disabled="true">Esqueceu a senha?</ion-button>
-        <br/>
-        <ion-button id="logar" color="primary" expand="full" (click)="logar()">Logar</ion-button>
-        <ion-button id="logar" expand="full" fill="clear" [routerLink]="['/cadastro']">Registrar</ion-button>
+        <ion-button color="dark" fill="clear" [routerLink]="['/esqueceu-senha']">Esqueceu a senha?</ion-button>
+        <br />
+        <ion-button id="logar" color="primary" expand="block" (click)="logar()">Logar</ion-button>
+        <ion-button id="logar" expand="block" fill="clear" [routerLink]="['/cadastro']">Registrar</ion-button>
       </ion-card-content>
     </ion-card>
   </div>

@@ -1,0 +1,195 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Listar Denúncias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Denúncias</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
+        <ion-row>
+          <ion-col>
+            <ion-button size="default" expand="block">
+              Listar por ONG
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button size="default" expand="block">
+              Listar por Usuário
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
+        <ion-row>
+          <ion-col>
+            <ion-button size="default" expand="block" (click)="openAdicionarDenuncia(true)">
+              <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+              Adicionar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+        <ion-list [inset]="true">
+          <ion-list-header lines="full">
+            <ion-label>Denúncias</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let item of denuncias; let pos = index">
+            <ion-label>{{item.ong.nome_fantasia}} - {{item.mensagem}}</ion-label>
+            <ion-fab horizontal="end">
+              <ion-fab-button size="small" color="secondary">
+                <ion-icon name="add"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-list side="start">
+                <ion-fab-button title="Bloquear ONG" *ngIf="item.ong.situacao === 'Aprovada'" color="success"
+                  (click)="bloqueiaOng(item.ong)">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button color="danger" (click)="confirmaExclusao(item)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button color="primary" (click)="visualizarDenunciaSelecionada(item.id)">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </ion-fab-button>
+              </ion-fab-list>
+            </ion-fab>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!--V Modal Visualizar Denúncia V-->
+  <ion-modal [isOpen]="isModalVisualizarOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Denúncia</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-input label="usuario" labelPlacement="stacked" value="{{denunciaSelecionada.usuario.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="ONG" labelPlacement="stacked" value="{{denunciaSelecionada.ong.nome_fantasia}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-textarea rows="4" label="Mensagem" labelPlacement="stacked" value="{{denunciaSelecionada.mensagem}}"
+              [disabled]="true"></ion-textarea>
+          </ion-item>
+          <br>
+          <ion-button size="default" expand="block" fill="outline" (click)="openVisualizarDenuncia(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!--^ Modal Visualizar Denúncia ^-->
+
+  <!--V Modal Atualizar Denúncia V-->
+  <ion-modal [isOpen]="isModalAtualizarOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Atualizar Denúncia</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-select label-placement="floating" [(ngModel)]="denunciaSelecionada.usuario.id"
+              [placeholder]="denunciaSelecionada.usuario.nome">
+              <div slot="label">Usuário<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of usuarios; let pos = index"
+                value="{{item.id}}">{{item.nome}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select label-placement="floating" [(ngModel)]="denunciaSelecionada.ong.id"
+              [placeholder]="denunciaSelecionada.ong.nome_fantasia">
+              <div slot="label">ONG<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of ongs; let pos = index"
+                value="{{item.id}}">{{item.nome_fantasia}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-textarea rows="4" label="Mensagem" labelPlacement="stacked" value="{{denunciaSelecionada.mensagem}}"
+              [disabled]="false"></ion-textarea>
+          </ion-item>
+          <br>
+          <ion-button size="default" expand="block" (click)="atualizaDenuncia()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openAtualizarDenuncia(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!--^ Modal Atualizar Denúncia ^-->
+
+  <!--V Modal Adicionar Denúncia V-->
+  <ion-modal [isOpen]="isModalAdicionarOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Adicionar Denúncia</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-select label-placement="floating" [(ngModel)]="usuarioSelecionado.id"
+              [placeholder]="usuarioSelecionado.nome">
+              <div slot="label">Usuário<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of usuarios; let pos = index"
+                value="{{item.id}}">{{item.nome}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select label-placement="floating" [(ngModel)]="ongSelecionada.id"
+              [placeholder]="ongSelecionada.nome_fantasia">
+              <div slot="label">ONG<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of ongs; let pos = index"
+                value="{{item.id}}">{{item.nome_fantasia}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-textarea rows="4" label="Mensagem" labelPlacement="stacked" [(ngModel)]="novaMensagem"
+              [disabled]="false"></ion-textarea>
+          </ion-item>
+          <br>
+          <ion-button size="default" expand="block" (click)="criaDenuncia()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openAdicionarDenuncia(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!--^ Modal Adicionar Denúncia ^-->
+
+</ion-content>

@@ -5,10 +5,16 @@
     height: 100%;
 }
 
-ion-content {
-    --background: #2388ee;
-}
-
 ion-button[color="dark"]{
     text-transform: initial;
+}
+
+ion-img{
+    width: 200px;
+    height: 150px;
+}
+
+.login-logo{
+    display: flex;
+    justify-content: center;
 }

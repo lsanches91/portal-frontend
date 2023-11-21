@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { OngService } from '../api/ong.service';
+import { OngService } from '../services/ong.service';
+import { MaskitoElementPredicateAsync, MaskitoOptions } from '@maskito/core';
 
 @Component({
   selector: 'app-editar-ong',
@@ -22,10 +23,22 @@ export class EditarOngPage implements OnInit {
     numero: "",
     bairro: "",
     cep: "",
+    cidade:"",
     uf: "",
     descricao: "",
-    situacao: ""
+    situacao: "",
+    logo_path: ""
   }
+
+  readonly telMask: MaskitoOptions = {
+    mask: ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+  };
+
+  readonly cnpjMask: MaskitoOptions = {
+    mask: [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
+  };  
+
+  readonly maskPredicate: MaskitoElementPredicateAsync = async (el) => (el as HTMLIonInputElement).getInputElement();
 
   constructor(private route:ActivatedRoute, public toastController: ToastController, private ongService: OngService, private router:Router) { 
     this.route.params.subscribe(params => {
@@ -48,6 +61,7 @@ export class EditarOngPage implements OnInit {
   putOng(ong:any){
     if(this.camposValidos(ong)){
       this.ongService.update(this.ongSelecionada.id, this.novaOng).then((ong) => {
+        console.log(this.novaOng);
         this.retorno = ong;
         console.log(this.retorno);
         this.presentToast("ONG editada com sucesso!");

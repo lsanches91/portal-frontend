@@ -3,39 +3,103 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ home }}</ion-title>
+    <ion-title>Animais para adoção</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">{{ home }}</ion-title>
+      <ion-title>Animais para adoção</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-grid>
     <ion-row>
       <ion-col size-lg="4" offset-lg="4" size-sm="12" offset-sm="0">
-        <ion-input label="Buscar Cidade" label-placement="floating" fill="solid" placeholder="Ex: Presidente Epitácio"></ion-input>
-      </ion-col>      
+        <ion-item>
+          <ion-input label="Buscar Cidade" labelPlacement="floating" placeholder="Ex: Presidente Epitácio"
+            (keydown.enter)="getAnimaisCidade()" [(ngModel)]="cidade"></ion-input>
+          <ion-icon title="Clique para obter a localização" style="margin-right: 5px;" (click)="printCurrentPosition()"
+            name="locate"></ion-icon>
+          <ion-icon title="Clique para selecionar mais filtros" (click)="openFiltros(true)"
+            name="options-outline"></ion-icon>
+        </ion-item>
+      </ion-col>
     </ion-row>
-    <ion-row *ngFor="let item of retorno; let pos = index">      
-      <ion-col size-lg="3" size-xs="12" *ngFor="let animal of item.animal; let pos = index">        
-        <ion-card >
-          <img alt="Silhouette of mountains" src="{{animal.foto_path}}" width="100%" height="200px"/>
+    <ion-row>
+      <ion-col size-lg="3" size-xs="12" *ngFor="let animal of animaisApresentados; let pos = index">
+        <ion-card class="ion-active" (click)="apresentaAnimal(animal.id)">
+          <img alt="Foto do animal" src="{{animal.foto_path}}" width="100%" height="200px" />
           <ion-card-header>
             <ion-card-title>{{animal.nome}}</ion-card-title>
-            <ion-card-subtitle>{{item.nome_fantasia}}</ion-card-subtitle>
+            <ion-card-subtitle>{{animal.ong.nome_fantasia}}</ion-card-subtitle>
           </ion-card-header>
-        
+
           <ion-card-content>
             {{animal.descricao}}
           </ion-card-content>
         </ion-card>
-      </ion-col>     
+      </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>
+
+<!--V Modal Filtros V-->
+<ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="openFiltros(false)"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+        </ion-buttons>
+        <ion-title>Filtros de busca para animal</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-card style="padding: 10px;">
+        <ion-item>
+          <ion-select label="Estado" interface="popover" labelPlacement="stacked" [(ngModel)]="estado">
+            <ion-select-option value="">Não filtrar</ion-select-option>
+            <ion-select-option *ngFor="let item of estados; let pos = index"
+              value="{{item.nome}}">{{item.nome}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Espécie" interface="popover" labelPlacement="stacked" [(ngModel)]="nomeEspecie">
+            <ion-select-option value="">Não filtrar</ion-select-option>
+            <ion-select-option *ngFor="let item of especies; let pos = index"
+              value="{{item.nome_comum}}">{{item.nome_comum}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Raça" interface="popover" labelPlacement="stacked" [(ngModel)]="nomeRaca">
+            <ion-select-option value="">Não filtrar</ion-select-option>
+            <ion-select-option *ngFor="let item of racas; let pos = index" value="{{item}}">{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Idade" interface="popover" labelPlacement="stacked" [(ngModel)]="idade">
+            <ion-select-option value="">Não filtrar</ion-select-option>
+            <ion-select-option value="Filhote">Filhote</ion-select-option>
+            <ion-select-option value="Adulto">Adulto</ion-select-option>
+            <ion-select-option value="Idoso">Idoso</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Porte" interface="popover" labelPlacement="stacked" [(ngModel)]="porte">
+            <ion-select-option value="">Não filtrar</ion-select-option>
+            <ion-select-option value="Pequeno">Pequeno</ion-select-option>
+            <ion-select-option value="Médio">Médio</ion-select-option>
+            <ion-select-option value="Grande">Grande</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button size="default" expand="block" color="success" (click)="aplicarFiltros()">
+          Aplicar Filtros
+        </ion-button>
+      </ion-card>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<!--^ Modal Visualizar Denúncia ^-->

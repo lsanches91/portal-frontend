@@ -1,0 +1,103 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-title>Meu Perfil</ion-title>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-item>
+      <ion-label>
+        <p>Nome:</p>{{nome}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>CPF:</p>{{cpf}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Telefone:</p>{{celular}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>E-mail:</p>{{email}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>CEP:</p>{{cep}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Logradouro:</p>{{logradouro}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Número:</p>{{numero}}
+      </ion-label>
+      <ion-label style="width: 150%;">
+        <p>Bairro:</p>{{bairro}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label style="width: 150%;">
+        <p>Cidade:</p>{{cidade.nome}}
+      </ion-label>
+      <ion-label>
+        <p>Estado:</p>{{estado.nome}}
+      </ion-label>
+    </ion-item>
+
+    <ion-button color="danger" expand="block" (click)="deslogar()">Sair</ion-button>
+    <ion-button color="warning" expand="block" (click)="openRedefinirSenha(true)">Redefinir Senha</ion-button>
+  </ion-card>
+
+</ion-content>
+
+<!--V Modal Redefinir Senha V-->
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="openRedefinirSenha(false)"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+        </ion-buttons>
+        <ion-title>Redefinir Senha</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-card style="padding: 15px;">
+        <ion-item>
+          <ion-input labelPlacement="floating" [(ngModel)]="senhaAtual" type="password" placeholder="Insira a sua senha atual">
+            <div slot="label">Senha Atual<ion-text color="danger">*</ion-text></div>
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input labelPlacement="floating" [(ngModel)]="novaSenha" type="password" placeholder="Insira a sua nova senha">
+            <div slot="label">Nova Senha<ion-text color="danger">*</ion-text></div>
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input labelPlacement="floating" [(ngModel)]="confirmaSenha" type="password" placeholder="Insira sua nova senha novamente"
+          (keydown.enter)="redefinirSenha()">
+            <div slot="label">Confirma Senha<ion-text color="danger">*</ion-text></div>
+          </ion-input>
+        </ion-item>
+        <br>
+        <ion-button size="default" expand="block" (click)="redefinirSenha()" color="success">
+          Redefinir
+        </ion-button>
+        <ion-button size="default" expand="block" fill="outline" (click)="openRedefinirSenha(false)">
+          Voltar
+        </ion-button>
+      </ion-card>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<!--^ Modal Redefinir Senha ^-->

@@ -23,7 +23,7 @@
           </ion-item>
           <ion-item>
             <ion-input label="CNPJ" label-placement="floating" fill="solid" type="text"
-              [(ngModel)]="novaOng.cnpj"></ion-input>
+            [maskito]="cnpjMask" [maskitoElement]="maskPredicate" [(ngModel)]="novaOng.cnpj"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label="Email" label-placement="floating" fill="solid" type="text"
@@ -31,7 +31,7 @@
           </ion-item>
           <ion-item>
             <ion-input label="Telefone" label-placement="floating" fill="solid" type="text"
-              [(ngModel)]="novaOng.telefone"></ion-input>
+            [maskito]="telMask" [maskitoElement]="maskPredicate" [(ngModel)]="novaOng.telefone"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label="Logradouro" label-placement="floating" fill="solid" type="text"
@@ -50,6 +50,10 @@
               [(ngModel)]="novaOng.cep"></ion-input>
           </ion-item>
           <ion-item>
+            <ion-input label="Cidade" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.cidade"></ion-input>
+          </ion-item>
+          <ion-item>
             <ion-input label="UF" label-placement="floating" fill="solid" type="text"
               [(ngModel)]="novaOng.uf"></ion-input>
           </ion-item>
@@ -58,8 +62,8 @@
               [(ngModel)]="novaOng.descricao"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label="Situação" label-placement="floating" fill="solid" type="text"
-              [(ngModel)]="novaOng.situacao"></ion-input>
+            <ion-input label="Logo" label-placement="floating" fill="solid" type="text"
+              [(ngModel)]="novaOng.logo_path"></ion-input>
           </ion-item>
         </ion-list>
       </ion-col>

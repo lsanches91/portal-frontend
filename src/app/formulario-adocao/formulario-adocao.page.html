@@ -1,0 +1,126 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Formulário de Adoção</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-md="6" size-xs="12">
+            <img alt="Foto do animal" src="{{ urlFoto }}" width="100%" height="100%" />
+          </ion-col>
+          <ion-col size-md="6" size-xs="12" class="ion-text-center">
+            <ion-card-header>
+              <ion-card-title>{{ animal.nome }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <h2><b>Espécie:</b> {{ especie }}</h2>
+              <h2><b>Raça:</b> {{ raca }}</h2>
+              <h2><b>Idade:</b> {{ animal.idade }}</h2>
+              <h2><b>Porte:</b> {{ animal.porte }}</h2>
+              <h2><b>Descrição:</b> {{ animal.descricao }}</h2>
+            </ion-card-content>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <!-- Informações Pessoais -->
+        <ion-item>
+          <ion-label>
+            <p>Nome:</p>{{nome}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>CPF:</p>{{cpf}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Telefone:</p>{{telefone}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>E-mail:</p>{{email}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>CEP:</p>{{cep}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Logradouro:</p>{{logradouro}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Número:</p>{{numero}}
+          </ion-label>
+          <ion-label style="width: 150%;">
+            <p>Bairro:</p>{{bairro}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label style="width: 150%;">
+            <p>Cidade:</p>{{cidade.nome}}
+          </ion-label>
+          <ion-label>
+            <p>Estado:</p>{{estado.nome}}
+          </ion-label>
+        </ion-item>
+
+        <ion-radio-group aria-owns="rad1 rad2" value="grape" [(ngModel)]="maior_idade">
+          <ion-list-header>
+            <ion-label>Você é maior de idade?</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Sim</ion-label>
+            <ion-radio id="rad1" slot="start" color="success" value="S"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Não</ion-label>
+            <ion-radio id="rad2" slot="start" color="success" value="N"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+
+        <!-- Possui Animais -->
+        <ion-radio-group aria-owns="rad1 rad2" value="grape" [(ngModel)]="possui_animais">
+          <ion-list-header>
+            <ion-label>Possui Animais?</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Sim</ion-label>
+            <ion-radio id="rad1" slot="start" color="success" value="S"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Não</ion-label>
+            <ion-radio id="rad2" slot="start" color="success" value="N"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+
+        <!-- Motivo da Adoção -->
+        <ion-item>
+          <ion-textarea label="Motivo" labelPlacement="floating" rows="4" [(ngModel)]="motivo" placeholder="Insira o motivo da adoção"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+
+      <!-- Botão de Envio -->
+      <ion-button expand="block" type="submit" (click)="enviarSolicitacao()">Enviar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

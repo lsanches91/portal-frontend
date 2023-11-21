@@ -1,0 +1,86 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">{{ongSelecionada.nome_fantasia}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Informação {{ongSelecionada.nome_fantasia}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card style="padding: 15px;">
+    <img alt="Logo da ONG" [src]="ongSelecionada.logo_path" width="100%" height="200px" />
+    <ion-card-header>
+      <ion-card-title>{{ongSelecionada.nome_fantasia}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h2><b>CNPJ:</b> {{ongSelecionada.cnpj}}</h2>
+      <h2><b>E-mail:</b> {{ongSelecionada.email}}</h2>
+      <h2><b>Telefone:</b> {{ongSelecionada.telefone}}</h2>
+      <h2><b>Logradouro:</b> {{ongSelecionada.logradouro}}</h2>
+      <h2><b>Número:</b> {{ongSelecionada.numero}}</h2>
+      <h2><b>Bairro:</b> {{ongSelecionada.bairro}}</h2>
+      <h2><b>Cidade:</b> {{ongSelecionada.cidade.nome}}</h2>
+      <h2><b>Descrição:</b> {{ongSelecionada.descricao}}</h2>
+    </ion-card-content>
+
+    <ion-button expand="block" color="danger" (click)="openCadastraDenuncia(true)">Denunciar Ong</ion-button>
+  </ion-card>
+  <ion-item>
+    <ion-label class="ion-text-center">
+      <h1>Lista de Animais da {{ongSelecionada.nome_fantasia}}</h1>
+    </ion-label>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="3" size-xs="12" *ngFor="let item of ongSelecionada.animal; let pos = index">
+        <ion-card class="ion-active" (click)="apresentaAnimal(item.id)">
+          <img alt="Foto do animal" src="{{item.foto_path}}" width="100%" height="200px" />
+          <ion-card-header>
+            <ion-card-title>{{item.nome}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            {{item.descricao}}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!--V Modal Denunciar ONG V-->
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Denunciar ONG {{ongSelecionada.nome_fantasia}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-card style="padding: 15px;">
+        <ion-item>
+          <ion-textarea label="Mensagem*" labelPlacement="floating" rows="4" [(ngModel)]="mensagem"
+            placeholder="Insira o motivo da denuncia"></ion-textarea>
+        </ion-item>
+        <br>
+        <ion-button size="default" expand="block" (click)="enviaDenuncia()" color="success">
+          Enviar
+        </ion-button>
+        <br>
+        <ion-button size="default" expand="block" fill="outline" (click)="openCadastraDenuncia(false)">
+          Voltar
+        </ion-button>
+      </ion-card>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<!--^ Modal Denunciar ONG ^-->

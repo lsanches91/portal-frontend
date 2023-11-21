@@ -1,7 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
-import { OngService } from '../api/ong.service';
+import { OngService } from '../services/ong.service';
 import { ActivatedRoute, Router }  from '@angular/router';
+import { urlBase } from '../services/utilidades.service';
 
 @Component({
   selector: 'app-listar-ong',
@@ -12,6 +13,7 @@ export class ListarOngPage implements OnInit{
 
   public listarOng!: string;
   private activatedRoute = inject(ActivatedRoute);
+  urlFoto: any = `${urlBase}/uploads/`;
   
 	retorno:any[] = [];
 
@@ -27,7 +29,10 @@ export class ListarOngPage implements OnInit{
   getOngs(){
     this.ongService.getAll().then((ongs) => {
       this.retorno = ongs;
-      console.log(ongs);
+      this.retorno.forEach((ong: any) => {
+        ong.logo_path = this.urlFoto + ong.logo_path;
+      });
+      console.log(this.retorno);
     }).catch((erro) => {
       console.log(erro)
     });
@@ -48,7 +53,6 @@ export class ListarOngPage implements OnInit{
         },
       ],
     });
-
     await alert.present();
   }
 

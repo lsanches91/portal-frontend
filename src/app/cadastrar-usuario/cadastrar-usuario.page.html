@@ -1,0 +1,95 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button default-href="#"></ion-back-button>
+  </ion-buttons>
+  <ion-title>Cadastro de Usuário</ion-title>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o nome" [(ngModel)]="nome" required>
+        <div slot="label">Nome<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o CPF" [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate" [(ngModel)]="cpf" required>
+        <div slot="label">CPF<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o número de celular" [maskito]="telMask"
+        [maskitoElement]="maskPredicate" [(ngModel)]="celular">
+        <div slot="label">Celular<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o e-mail" type="email"
+        [(ngModel)]="email" required>
+        <div slot="label">E-mail<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira a senha" type="password"
+        [(ngModel)]="senha" required>
+        <div slot="label">Senha<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira a senha" type="password"
+        [(ngModel)]="confirmaSenha" required>
+        <div slot="label">Confirmar Senha<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o CEP" [(ngModel)]="cep" [maskito]="cepMask"
+        [maskitoElement]="maskPredicate" required>
+        <div slot="label">CEP<ion-text color="danger" >*</ion-text></div>
+      </ion-input>
+      <!--<ion-button (click)="buscarEndereco()">Buscar Endereço<ion-icon slot="end" name="search"></ion-icon></ion-button>-->
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira a logradouro"
+        [(ngModel)]="logradouro"required>
+        <div slot="label">Logradouro<ion-text color="danger">*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input labelPlacement="floating" placeholder="Insira o numero"
+        [(ngModel)]="numero" required>
+        <div slot="label">Número<ion-text color="danger">*</ion-text></div>
+      </ion-input>
+      <ion-input labelPlacement="floating" placeholder="Insira a bairro" style="width: 150%;"
+        [(ngModel)]="bairro" required>
+        <div slot="label">Bairro<ion-text color="danger">*</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label-placement="floating" [(ngModel)]="estadoSelecionado" [placeholder]="estadoSelecionado" 
+      (ionChange)="onEstadoChange($event)" (click)="verificaEstados()">
+        <div slot="label">Estado<ion-text color="danger">*</ion-text></div>
+        <ion-select-option *ngFor="let item of estados; let pos = index"
+          value="{{item.sigla}}">{{item.nome}}</ion-select-option>
+      </ion-select>
+      <ion-select label-placement="stacked" [disabled]="selectDisabled" [(ngModel)]="cidadeSelecionada_id" 
+      [placeholder]="cidadeSelecionada" (click)="verificaEstados()" (ionChange)="onCidadeChange($event)">
+        <div slot="label">Cidade<ion-text color="danger">*</ion-text></div>
+        <ion-select-option *ngFor="let item of cidades; let pos = index"
+          value="{{item.id}}">{{item.nome}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Situação*" label-placement="floating" searchable="true" searchIcon="search" [(ngModel)]="situacao">
+        <div slot="label">Cidade<ion-text color="danger">*</ion-text></div>
+        <ion-select-option value="A">Ativo</ion-select-option>
+        <ion-select-option value="P">Pendente</ion-select-option>
+      </ion-select>
+      <ion-select label="Nível de Acesso*" label-placement="floating" searchable="true" searchIcon="search" [(ngModel)]="nivel">
+        <ion-select-option value="A">Administrador</ion-select-option>
+        <ion-select-option value="C">Usuário Comum</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button color="success" expand="block" (click)="cadastrar()">Cadastrar</ion-button>
+  </ion-card>
+</ion-content>

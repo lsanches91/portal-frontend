@@ -15,31 +15,77 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card>
-    <img alt="Silhouette of mountains" [src]="ongSelecionada.logo_path" width="100%" height="200px" />
-    <ion-card-header>
-      <ion-card-title>{{ongSelecionada.nome_fantasia}}</ion-card-title>
-      <ion-card-subtitle>{{ongSelecionada.cnpj}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.email}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.telefone}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.logradouro}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.numero}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.bairro}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.cep}}</ion-card-subtitle>
-      <ion-card-subtitle>{{ongSelecionada.uf}}</ion-card-subtitle>
-    </ion-card-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+        <ion-card>
+          <img alt="Silhouette of mountains" [src]="ongSelecionada.logo_path" width="100%" height="300px" />
+          <ion-card-header>
+            <ion-card-title>{{ongSelecionada.nome_fantasia}}</ion-card-title>
+            <ion-card-subtitle>{{ongSelecionada.cnpj}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.email}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.telefone}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.logradouro}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.numero}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.bairro}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.cep}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.cidade.nome}}</ion-card-subtitle>
+            <ion-card-subtitle>{{ongSelecionada.cidade.estado.nome}}</ion-card-subtitle>
+          </ion-card-header>
 
-    <ion-card-content>
-      {{ongSelecionada.descricao}}
-    </ion-card-content>
-  </ion-card>
+          <ion-card-content>
+            {{ongSelecionada.descricao}}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
+          <ion-row>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoAnimais(true)">
+                Animais
+              </ion-button>
+            </ion-col>
+            <ng-container *ngIf="isResponsavel === true">
+              <ion-col>
+                <ion-button size="default" expand="block" (click)="botaoColaboradores(true)">
+                  Colaboradores
+                </ion-button>
+              </ion-col>
+            </ng-container>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
+          <ion-row>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoAdocoes(true)">
+                Adoções
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoResgate(true)">
+                Resgates
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
   <ion-item>
     <ion-label class="ion-text-center">
-      <h1>Lista de Animais da {{ongSelecionada.nome_fantasia}}</h1>      
+      <h1>{{mensagemLista}} {{ongSelecionada.nome_fantasia}}</h1>
     </ion-label>
   </ion-item>
 
-  <ion-grid >
+  <!--Mostra apenas se clicar no botão de Animais-->
+  <ion-grid *ngIf="isBotaoAnimais === true">
     <ion-row style="height: 100%;">
       <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
         <ion-button size="default" expand="block" (click)="addAnimal(ongSelecionada.id)">
@@ -48,14 +94,14 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row >      
-      <ion-col size-lg="3" size-xs="12" *ngFor="let item of ongSelecionada.animal; let pos = index">        
+    <ion-row>
+      <ion-col size-lg="3" size-xs="12" *ngFor="let item of ongSelecionada.animal; let pos = index">
         <ion-card>
-          <img alt="Silhouette of mountains" src="{{item.foto_path}}" width="100%" height="200px"/>
+          <img alt="Silhouette of mountains" src="{{item.foto_path}}" width="100%" height="200px" />
           <ion-card-header>
             <ion-card-title>{{item.nome}}</ion-card-title>
           </ion-card-header>
-        
+
           <ion-card-content>
             {{item.descricao}}
           </ion-card-content>
@@ -72,10 +118,560 @@
                 </ion-button>
               </ion-col>
             </ion-row>
-          </ion-grid>        
+          </ion-grid>
         </ion-card>
-      </ion-col>     
+      </ion-col>
     </ion-row>
   </ion-grid>
+  <!--Mostra apenas se clicar no botão de Animais-->
+
+  <!--Mostra apenas se clicar no botão de Colaboradores-->
+  <ng-container *ngIf="isBotaoColaboradores === true">
+    <ion-grid>
+      <ion-row style="height: 100%;">
+        <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="openAdicionarColaborador(true)">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            Adicionar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+          <ion-list [inset]="true">
+            <ion-list-header lines="full">
+              <ion-label>Lista de Colaboradores</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let item of colaboradores; let pos = index">
+              <ion-avatar aria-hidden="true" slot="start">
+                <img alt="" [src]="item.usuario.imagem_path" />
+              </ion-avatar>
+              <ion-label [color]="item.situacao === 'Pendente' ? 'medium' : ''">{{item.usuario.nome}} -
+                {{item.cargo}}</ion-label>
+              <ion-fab horizontal="end">
+                <ion-fab-button size="small" color="secondary">
+                  <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="start">
+                  <ion-fab-button color="warning" (click)="editarColaboradorSelecionado(item.usuario_id)">
+                    <ion-icon name="brush-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button color="primary" (click)="visualizarColaboradorSelecionado(item.usuario_id)">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <!--Mostra apenas se clicar no botão de Colaboradores-->
+
+  <!--Mostra apenas se clicar no botão de Adoções-->
+  <ng-container *ngIf="isBotaoAdocoes === true">
+    <ion-grid>
+      <ion-row style="height: 100%;">
+        <ion-col size-lg="1" offset-lg="4.5" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllAdocoesBySituacao('P')">
+            Pedidos
+          </ion-button>
+        </ion-col>
+        <ion-col size-lg="1" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllAdocoesBySituacao('A')">
+            Aceitos
+          </ion-button>
+        </ion-col>
+        <ion-col size-lg="1" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllAdocoesBySituacao('R')">
+            Recusados
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+          <ion-list [inset]="true">
+            <ion-list-header lines="full">
+              <ion-label>Solicitações de Adoção {{mensagemAdocao}}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let item of adocoes; let pos = index">
+              <ion-avatar aria-hidden="true" slot="start">
+                <img alt="" [src]="item.animal.foto_path" />
+              </ion-avatar>
+              <ion-label>{{item.animal.nome}}</ion-label>
+              <ion-fab horizontal="end">
+                <ion-fab-button size="small" color="secondary">
+                  <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="start">
+                  <ion-fab-button color="warning" (click)="responderAdocao(item.id, item.usuario_id, item.animal_id)">
+                    <ion-icon name="brush-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <!--Mostra apenas se clicar no botão de Adoções-->
+
+  <!--Mostra apenas se clicar no botão de Resgate-->
+  <ng-container *ngIf="isBotaoResgate === true">
+    <ion-grid>
+      <ion-row style="height: 100%;">
+        <ion-col size-lg="1" offset-lg="4.5" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllResgatePendente()">
+            <ion-icon name="paw-outline"></ion-icon>
+            Pedidos
+          </ion-button>
+        </ion-col>
+        <ion-col size-lg="1" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllResgateAceito()">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Aceitos
+          </ion-button>
+        </ion-col>
+        <ion-col size-lg="1" size-xs="4" offset-xs="0">
+          <ion-button size="default" expand="block" (click)="getAllResgateFinalizado()">
+            <ion-icon name="ribbon-outline"></ion-icon>
+            Prontos
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+          <ion-list [inset]="true">
+            <ion-list-header lines="full">
+              <ion-label>Solicitações de Resgate {{mensagemResgate}}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let item of resgates; let pos = index">
+              <ion-label>{{item.cidade.nome}} - {{item.cidade.estado.sigla}}</ion-label>
+              <ion-fab horizontal="end">
+                <ion-fab-button size="small" color="secondary">
+                  <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="start">
+                  <ion-fab-button *ngIf="item.situacao === 'P'" color="warning"
+                    (click)="responderResgatePendente(item.id, item.usuario_id)">
+                    <ion-icon name="enter-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button *ngIf="item.situacao === 'A'" color="success"
+                    (click)="responderResgateAceito(item.id, item.usuario_id)">
+                    <ion-icon name="exit-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button *ngIf="item.situacao === 'F'" color="primary"
+                    (click)="visualizarResgateFinalizado(item.id, item.usuario_id)">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <!--Mostra apenas se clicar no botão de Resgate-->
+
+  <!-- Modal Adicionar Colaborador -->
+  <ion-modal [isOpen]="isModalAdicionarColaboradorOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Adicionar Colaborador</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-input label="Email" labelPlacement="stacked" [counter]="true" maxlength="45"
+              [(ngModel)]="email"></ion-input>
+          </ion-item>
+          <ion-button size="default" expand="block" (click)="enviarColaborador()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openAdicionarColaborador(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Adicionar Colaborador -->
+
+  <!-- Modal Visualizar Colaborador -->
+  <ion-modal [isOpen]="isModalVisualizarColaboradorOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Colaborador</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-avatar style="width: 200px; height: 200px; margin-left: 7vw;" aria-hidden="true" slot="start">
+              <img alt="" [src]="colaboradorSelecionado.usuario.imagem_path" />
+            </ion-avatar>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Nome" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Telefone" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.telefone}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Email" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.email}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cargo" labelPlacement="stacked" value="{{colaboradorSelecionado.cargo}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Situação" labelPlacement="stacked" value="{{colaboradorSelecionado.situacao}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <br>
+          <ion-button size="default" expand="block" fill="outline" (click)="openVisualizarColaborador(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Visualizar Colaborador -->
+
+  <!-- Modal "Editar" Colaborador -->
+  <ion-modal [isOpen]="isModalEditarColaboradorOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Colaborador</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-input label="Nome" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Telefone" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.telefone}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Email" labelPlacement="stacked" value="{{colaboradorSelecionado.usuario.email}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cargo" labelPlacement="stacked" value="{{colaboradorSelecionado.cargo}}" [counter]="true"
+              maxlength="20" [(ngModel)]="colaboradorSelecionado.cargo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Responsável pelo Perfil?" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="colaboradorSelecionado.responsavel">
+              <ion-select-option value="S">Sim</ion-select-option>
+              <ion-select-option value="N">Não</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Situação" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="colaboradorSelecionado.situacao">
+              <ion-select-option value="Ativado">Ativado</ion-select-option>
+              <ion-select-option value="Bloqueado">Bloqueado</ion-select-option>
+              <ion-select-option value="Desativado">Desativado</ion-select-option>
+              <ion-select-option value="Pendente">Pendente</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button size="default" expand="block" (click)="atualizaColaborador()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openEditarColaborador(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal "Editar" Colaborador -->
+
+  <!-- Modal Visualizar Adocao -->
+  <ion-modal [isOpen]="isModalResponderAdocaoOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Adoção</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <ion-item>
+            <ion-avatar style="width: 200px; height: 200px; margin-left: 7vw;" aria-hidden="true" slot="start">
+              <img alt="" [src]="adocaoSelecionada.animal.foto_path" />
+            </ion-avatar>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Animal" labelPlacement="stacked" value="{{adocaoSelecionada.animal.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Usuário" labelPlacement="stacked" value="{{adocaoSelecionada.usuario.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Telefone" labelPlacement="stacked" value="{{adocaoSelecionada.usuario.telefone}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Email" labelPlacement="stacked" value="{{adocaoSelecionada.usuario.email}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="É maior de idade?" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="adocaoSelecionada.maior_idade" [disabled]="true">
+              <ion-select-option value="S">Sim</ion-select-option>
+              <ion-select-option value="N">Não</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Possui animais?" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="adocaoSelecionada.possui_animais" [disabled]="true">
+              <ion-select-option value="S">Sim</ion-select-option>
+              <ion-select-option value="N">Não</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-textarea fill="solid" label="Motivo" labelPlacement="stacked" type="text" [disabled]="true"
+              [autoGrow]="true" [(ngModel)]="adocaoSelecionada.motivo"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Situação" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="adocaoSelecionada.situacao">
+              <ion-select-option value="A">Aprovado</ion-select-option>
+              <ion-select-option value="R">Recusado</ion-select-option>
+              <ion-select-option value="P">Pendente</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button size="default" expand="block" (click)="atualizarAdocao()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openResponderAdocao(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Visualizar Adocao -->
+
+  <!-- Modal Visualizar Resgate Pendente-->
+  <ion-modal [isOpen]="isModalResponderResgatePendenteOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Resgate Pendente</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <!-- Quando adicionar uma foto para o resgate
+                <ion-item>
+                  <ion-avatar style="width: 200px; height: 200px; margin-left: 7vw;" aria-hidden="true" slot="start">
+                    <img alt="" [src]="adocaoSelecionada.animal.foto_path" />
+                  </ion-avatar>
+                </ion-item>
+                -->
+          <ion-item>
+            <ion-input label="Espécie" labelPlacement="stacked" value="{{resgateSelecionado.especie}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Logradouro Aproximado" labelPlacement="stacked"
+              value="{{resgateSelecionado.logradouro_aproximado}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Número" labelPlacement="stacked" value="{{resgateSelecionado.numero_aproximado}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Ponto de Referência" labelPlacement="stacked"
+              value="{{resgateSelecionado.ponto_referencia}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cidade" labelPlacement="stacked" value="{{resgateSelecionado.cidade.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CEP" labelPlacement="stacked" value="{{resgateSelecionado.cep}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Estado" labelPlacement="stacked" value="{{resgateSelecionado.cidade.estado.sigla}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-textarea fill="solid" label="Descrição" labelPlacement="stacked" type="text" [disabled]="true"
+              [autoGrow]="true" [(ngModel)]="resgateSelecionado.descricao"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Situação" interface="popover" labelPlacement="stacked" [disabled]="true"
+              [(ngModel)]="resgateSelecionado.situacao">
+              <ion-select-option value="A">Aceito</ion-select-option>
+              <ion-select-option value="F">Finalizado</ion-select-option>
+              <ion-select-option value="P">Pendente</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button size="default" expand="block" (click)="aceitaResgate()">
+            Aceitar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openResponderResgatePendente(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Visualizar Resgate Pendente-->
+
+  <!-- Modal Visualizar Resgate Aceito-->
+  <ion-modal [isOpen]="isModalResponderResgateAceitoOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Resgate Aceito</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <!-- Quando adicionar uma foto para o resgate
+                <ion-item>
+                  <ion-avatar style="width: 200px; height: 200px; margin-left: 7vw;" aria-hidden="true" slot="start">
+                    <img alt="" [src]="adocaoSelecionada.animal.foto_path" />
+                  </ion-avatar>
+                </ion-item>
+                -->
+          <ion-item>
+            <ion-input label="Espécie" labelPlacement="stacked" value="{{resgateSelecionado.especie}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Logradouro Aproximado" labelPlacement="stacked"
+              value="{{resgateSelecionado.logradouro_aproximado}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Número" labelPlacement="stacked" value="{{resgateSelecionado.numero_aproximado}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Ponto de Referência" labelPlacement="stacked"
+              value="{{resgateSelecionado.ponto_referencia}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cidade" labelPlacement="stacked" value="{{resgateSelecionado.cidade.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CEP" labelPlacement="stacked" value="{{resgateSelecionado.cep}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Estado" labelPlacement="stacked" value="{{resgateSelecionado.cidade.estado.sigla}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-textarea fill="solid" label="Descrição" labelPlacement="stacked" type="text" [disabled]="true"
+              [autoGrow]="true" [(ngModel)]="resgateSelecionado.descricao"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Situação" interface="popover" labelPlacement="stacked" [disabled]="true"
+              [(ngModel)]="resgateSelecionado.situacao">
+              <ion-select-option value="A">Aceito</ion-select-option>
+              <ion-select-option value="F">Finalizado</ion-select-option>
+              <ion-select-option value="P">Pendente</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button size="default" expand="block" (click)="finalizaResgate()">
+            Finalizar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openResponderResgateAceito(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Visualizar Resgate Aceito-->
+
+  <!-- Modal Visualizar Resgate Finalizado-->
+  <ion-modal [isOpen]="isModalResgateFinalizadoOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Visualizar Resgate Finalizado</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
+          <!-- Quando adicionar uma foto para o resgate
+                <ion-item>
+                  <ion-avatar style="width: 200px; height: 200px; margin-left: 7vw;" aria-hidden="true" slot="start">
+                    <img alt="" [src]="adocaoSelecionada.animal.foto_path" />
+                  </ion-avatar>
+                </ion-item>
+                -->
+          <ion-item>
+            <ion-input label="Espécie" labelPlacement="stacked" value="{{resgateSelecionado.especie}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Logradouro Aproximado" labelPlacement="stacked"
+              value="{{resgateSelecionado.logradouro_aproximado}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Número" labelPlacement="stacked" value="{{resgateSelecionado.numero_aproximado}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Ponto de Referência" labelPlacement="stacked"
+              value="{{resgateSelecionado.ponto_referencia}}" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Cidade" labelPlacement="stacked" value="{{resgateSelecionado.cidade.nome}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="CEP" labelPlacement="stacked" value="{{resgateSelecionado.cep}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="Estado" labelPlacement="stacked" value="{{resgateSelecionado.cidade.estado.sigla}}"
+              [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-textarea fill="solid" label="Descrição" labelPlacement="stacked" type="text" [disabled]="true"
+              [autoGrow]="true" [(ngModel)]="resgateSelecionado.descricao"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-select fill="solid" label="Situação" interface="popover" labelPlacement="stacked" [disabled]="true"
+              [(ngModel)]="resgateSelecionado.situacao">
+              <ion-select-option value="A">Aceito</ion-select-option>
+              <ion-select-option value="F">Finalizado</ion-select-option>
+              <ion-select-option value="P">Pendente</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button size="default" expand="block" fill="outline" (click)="openResgateFinalizado(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!-- Modal Visualizar Resgate Finalizado-->
 
 </ion-content>

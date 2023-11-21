@@ -1,0 +1,18 @@
+<ion-content [fullscreen]="true">
+  <div class="flex-center">
+    <ion-card>
+      <!--<img alt="Logo PAPA" src="../../assets/papa-logo.png" /> -->
+      <ion-card-content>
+        <ion-item>
+          <ion-input label="Nova Senha" labelPlacement="floating" placeholder="Insira a nova senha" type="password" [(ngModel)]="nova_senha"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Confirma Senha" labelPlacement="floating" placeholder="Insira a confirmação de senha" type="password" (keydown.enter)="redefinir()" [(ngModel)]="confirma_senha"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <ion-button id="redefinir" color="success" expand="block" (click)="redefinir()">Redefinir Senha</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

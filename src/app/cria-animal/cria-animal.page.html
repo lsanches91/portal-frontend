@@ -13,53 +13,118 @@
       <ion-title size="large">Adicionando Animal</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-grid>
-    <ion-row>
-      <ion-col size-lg="4" offset-lg="4" size-xs="12" offset-xs="0">
-        <ion-list style="padding: 15px;">
+  <ion-card style="padding: 15px;">
+    <ion-item>
+      <ion-input fill="solid" label="Nome" labelPlacement="stacked" type="text" [counter]="true" maxlength="50"
+        [(ngModel)]="novoAnimal.nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select fill="solid" label="Espécie" interface="popover" labelPlacement="stacked"
+        [(ngModel)]="novoAnimal.raca_especie_id" (ionChange)="onEspecieChange($event)">
+        <ion-select-option *ngFor="let item of especies; let pos = index"
+          value="{{item.id}}">{{item.nome_comum}}</ion-select-option>
+        <ion-select-option>+ Cadastrar Espécie</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select fill="solid" label="Raça" interface="popover" labelPlacement="stacked"
+        [(ngModel)]="novoAnimal.raca_id" (ionChange)="onRacaChange($event)">
+        <ion-select-option *ngFor="let item of racas; let pos = index"
+          value="{{item.id}}">{{item.nome}}</ion-select-option>
+        <ion-select-option>+ Cadastrar Raça</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select fill="solid" label="Idade" interface="popover" labelPlacement="stacked"
+        [(ngModel)]="novoAnimal.idade">
+        <ion-select-option value="Filhote">Filhote</ion-select-option>
+        <ion-select-option value="Adulto">Adulto</ion-select-option>
+        <ion-select-option value="Idoso">Idoso</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select fill="solid" label="Porte" interface="popover" labelPlacement="stacked"
+        [(ngModel)]="novoAnimal.porte">
+        <ion-select-option value="Pequeno">Pequeno</ion-select-option>
+        <ion-select-option value="Médio">Médio</ion-select-option>
+        <ion-select-option value="Grande">Grande</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Foto</ion-label>
+      <input type="file" name="foto_path" (change)="onUpload($event)">
+    </ion-item>
+    <ion-item>
+      <ion-textarea fill="solid" label="Descrição" labelPlacement="stacked" type="text" [counter]="true" maxlength="200"
+        [autoGrow]="true" [(ngModel)]="novoAnimal.descricao"></ion-textarea>
+    </ion-item>
+    <ion-button size="default" expand="block" (click)="enviaAnimal()">
+      Enviar
+    </ion-button>
+    <ion-button size="default" expand="block" fill="outline" (click)="voltaPagina()">
+      Cancelar
+    </ion-button>
+  </ion-card>
+
+  <!--V Modal Criar Espécie V-->
+  <ion-modal [isOpen]="isModalEspecieOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Cadastrar Espécie</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
           <ion-item>
-            <ion-input fill="solid" label="Nome" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.nome"></ion-input>
+            <ion-input fill="solid" label="Nome Comum" labelPlacement="stacked" type="text" [counter]="true"
+              maxlength="50" [(ngModel)]="novaEspecie.nome_comum"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input fill="solid" label="Espécie" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.especie"></ion-input>
+            <ion-input fill="solid" label="Nome Científico" labelPlacement="stacked" type="text" [counter]="true"
+              maxlength="50" [(ngModel)]="novaEspecie.nome_cientifico"></ion-input>
           </ion-item>
+          <ion-button size="default" expand="block" (click)="enviaEspecie()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openCadastraEspecie(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!--^ Modal Criar Espécie ^-->
+
+  <!--V Modal Criar Raça V-->
+  <ion-modal [isOpen]="isModalRacaOpen" [backdropDismiss]="false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Cadastrar Raça</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card style="padding: 15px;">
           <ion-item>
-            <ion-input fill="solid" label="Idade" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.idade"></ion-input>
+            <ion-input fill="solid" label="Nome" labelPlacement="stacked" type="text" [counter]="true" maxlength="50"
+              [(ngModel)]="novaRaca.nome"></ion-input>
           </ion-item>
-          <ion-item>
-            <ion-input fill="solid" label="Porte" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.porte"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input fill="solid" label="Raça" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.raca"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input fill="solid" label="Descrição" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.descricao"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input fill="solid" label="Situação" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.situacao"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input fill="solid" label="Foto" labelPlacement="stacked" type="text" [(ngModel)]="novoAnimal.foto_path"></ion-input>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
-        <ion-button size="default" expand="block" (click)="enviaAnimal()">          
-          Enviar
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size-lg="2" offset-lg="5" size-xs="12" offset-xs="0">
-        <ion-button size="default" expand="block" fill="outline" (click)="voltaPagina()">          
-          Cancelar
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  
+          <ion-select fill="solid" label="Espécie" interface="popover" labelPlacement="stacked"
+            [(ngModel)]="novaRaca.especie_id">
+            <ion-select-option *ngFor="let item of especies; let pos = index"
+              value="{{item.id}}">{{item.nome_comum}}</ion-select-option>
+          </ion-select>
+          <ion-button size="default" expand="block" (click)="enviaRaca()">
+            Enviar
+          </ion-button>
+          <ion-button size="default" expand="block" fill="outline" (click)="openCadastraRaca(false)">
+            Voltar
+          </ion-button>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <!--^ Moda Criar Raça ^-->
 
 </ion-content>

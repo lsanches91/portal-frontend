@@ -1,0 +1,25 @@
+ion-card.ion-active {
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f4f4f4; /* ou qualquer outra cor desejada */
+  }
+}
+
+ion-icon {
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: color 0.3s ease; /* Adiciona uma transição suave para a cor */
+}
+
+ion-icon:hover {
+  color: #5b0999; /* Muda a cor quando passa o mouse sobre o ícone */
+}
+
+ion-icon:active {
+  color: #B959C6; /* Muda a cor quando o ícone está ativo (clicado) */
+}
+
+ion-item{
+  margin-bottom: 10px;
+}

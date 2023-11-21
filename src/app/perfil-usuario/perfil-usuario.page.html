@@ -1,0 +1,176 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>perfil-usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil {{nome}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{usuarioLogado.nome}}</ion-card-title>
+      <ion-card-subtitle>{{usuarioLogado.cpf}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.email}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.celular}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.logradouro}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.numero}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.bairro}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.cidade}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.cep}}</ion-card-subtitle>
+      <ion-card-subtitle>{{usuarioLogado.uf}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-button fill="clear" (click)="editarUsuario(usuarioLogado.id)">Editar</ion-button>
+  <ion-button fill="clear" (click)="confirmaExclusao(usuarioLogado.id)">Excluir</ion-button>
+
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+          <ion-row>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoHistorico(true)">
+                Histórico de Adoções              
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoColaboradorOngs(true)" >
+                ONGs em que sou Colaborador
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button size="default" expand="block" (click)="botaoResponsavelOngs(true)">
+                ONGs em que sou Responsável
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
+   <!--Lista ONGs onde o Usuário é colaborador-->
+ <ng-container *ngIf="isBotaoColaboradorOngs === true">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label class="ion-text-center">
+            <h1>Lista de ONGs onde sou colaborador</h1>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+        <ion-list [inset]="true">
+          <ion-item *ngFor="let item of colaboradorOngs; let pos = index">
+            <ion-label>{{item.nome_fantasia}}</ion-label>
+            <ion-fab horizontal="end">
+              <ion-fab-button size="small" color="primary" (click)="visualizarONGSelecionada(item.id)">
+                <ion-icon name="eye-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ng-container>
+
+  <!--Lista ONGs onde o Usuário é Responsavel-->
+  <ng-container *ngIf="isBotaoResponsavelOngs === true">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label class="ion-text-center">
+              <h1>Lista de ONGs onde sou responsável</h1>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+          <ion-list [inset]="true">
+            <ion-item *ngFor="let item of responsavelOngs; let pos = index">
+              <ion-label>{{item.nome_fantasia}}</ion-label>
+              <ion-fab horizontal="end">
+                <ion-fab-button size="small" color="primary" (click)="visualizarONGSelecionada(item.id)">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </ion-fab-button>
+              </ion-fab>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+
+<!--Modal de Visualizar-->
+<ion-modal [isOpen]="isModalVisualizarOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Visualizar ONG</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-lg="10" offset-lg="1" size-xs="12" offset-xs="0">
+            <ion-list style="padding: 15px;" [inset]="true">
+              <ion-item>
+                <ion-input label="Nome Fantasia" label-placement="stacked" value="{{novaOng.nome_fantasia}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="CNPJ" label-placement="stacked" value="{{novaOng.cnpj}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Email" label-placement="stacked" value="{{novaOng.email}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Telefone" label-placement="stacked" value="{{novaOng.telefone}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Logradouro" label-placement="stacked" value="{{novaOng.logradouro}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Número" label-placement="stacked" value="{{novaOng.numero}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Bairro" label-placement="stacked" value="{{novaOng.bairro}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="CEP" label-placement="stacked" value="{{novaOng.cep}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="UF" label-placement="stacked" value="{{novaOng.uf}}" [disabled]="true"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Descrição" label-placement="stacked" value="{{novaOng.descricao}}" [disabled]="true"></ion-input>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-lg="6" offset-lg="3" size-xs="12" offset-xs="0">
+            <ion-button size="default" expand="block" fill="outline" (click)="openVisualizarOng(false)">
+              Voltar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+</ion-content>

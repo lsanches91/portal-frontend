@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Solicitação de Resgate</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-input label="Espécie" labelPlacement="floating" placeholder="Insira a espécie" [(ngModel)]="especie"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea label="Descrição" labelPlacement="floating" rows="4" [(ngModel)]="descricao"
+        placeholder="Insira a descrição do animal"></ion-textarea>
+    </ion-item>
+    <ion-button style="margin: 10px;" (click)="getLocalizacao()"><ion-icon name="map-outline"></ion-icon>Utilizar Geolocalização</ion-button>
+    <ion-item>
+      <ion-input label="CEP" labelPlacement="floating" placeholder="Insira o CEP" [(ngModel)]="cep" [maskito]="cepMask" [maskitoElement]="maskPredicate"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Logradouro" labelPlacement="floating" placeholder="Insira a logradouro aproximado" style="width: 150%;" [(ngModel)]="logradouroAproximado"></ion-input>
+      <ion-input label="Numero" labelPlacement="floating" placeholder="Insira o numero aproximado" [(ngModel)]="numeroAproximado"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label-placement="floating" [(ngModel)]="estadoSelecionado" [placeholder]="estadoSelecionado" 
+      (ionChange)="onEstadoChange($event)" (click)="verificaEstados()">
+        <div slot="label">Estado<ion-text color="danger">*</ion-text></div>
+        <ion-select-option *ngFor="let item of estados; let pos = index"
+          value="{{item.sigla}}">{{item.nome}}</ion-select-option>
+      </ion-select>
+      <ion-select label-placement="stacked" [disabled]="selectDisabled" [(ngModel)]="cidadeSelecionada_id" 
+      [placeholder]="cidadeSelecionada" (click)="verificaEstados()" (ionChange)="onCidadeChange($event)">
+        <div slot="label">Cidade<ion-text color="danger">*</ion-text></div>
+        <ion-select-option *ngFor="let item of cidades; let pos = index"
+          value="{{item.id}}">{{item.nome}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Ponto de referência" labelPlacement="floating" placeholder="Insira um ponto de referência" [(ngModel)]="pontoReferencia"></ion-input>
+    </ion-item>
+    <!-- Botão de Envio -->
+    <ion-button style="margin: 10px;" expand="block" (click)="enviarSolicitacao()" color="success">Enviar</ion-button>
+  </ion-card>
+</ion-content>
