@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class EsqueceuSenhaPage implements OnInit {
 
   email:string = ""
+  enviados:string[] = []
 
   constructor(private usuarioService: UsuarioService, private utilsService: UtilsService) { }
 
@@ -18,11 +19,14 @@ export class EsqueceuSenhaPage implements OnInit {
 
   async enviarEmail(){
     if(this.email == ""){
-      this.utilsService.presentToastSuccess("Preencha o E-mail")
+      this.utilsService.presentToastWarning("Preencha o E-mail!")
+    }else if(this.enviados.includes(this.email)){
+      this.utilsService.presentToastWarning("O E-mail de recuperação de senha já foi enviado para o ")
     }else{
       const retorno = await this.usuarioService.enviarEmail(this.email)
       if(retorno){
         this.utilsService.presentToastSuccess("E-mail para a redefinição de senha enviado com sucesso")
+        this.enviados.push(this.email)
       }
     }
   }

@@ -60,15 +60,16 @@ export class CadastrarOngPage {
   }
 
   async verificaEstados() {
-    if (this.estados.length == 0) {
-      await this.estadoService.importEstados()
-      await this.cidadeService.importCidades()
-      this.estadoService.getAll().then((retorno) => {
-        this.estados = retorno
-      }).catch((erro) => {
-        console.log(erro);
-      });
-    }
+    this.estadoService.getAll().then(async (estados) => {
+      if (estados.length == 0) {
+        this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
+        await this.estadoService.importEstados()
+        await this.cidadeService.importCidades()
+        this.estados = estados 
+      }
+    }).catch((erro) => {
+      console.log(erro);
+    });
   }
 
   onEstadoChange(event: any) {
@@ -168,6 +169,7 @@ export class CadastrarOngPage {
         }).catch((erro) => {
           console.log(erro);
         })
+
         this.presentToast("Ong adicionada com sucesso!");
       }).catch((erro) => {
         console.log(erro);

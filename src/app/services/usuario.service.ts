@@ -49,12 +49,12 @@ export class UsuarioService {
 
   async enviarEmail(email: string) {
     return this.http.post<boolean>(`${urlBase}/enviar-email/${email}`, email).toPromise().then(() => {
-      return true;
+      return true
     })
       .catch((error: any) => {
         this.utilsService.presentToastError(error.error.error);
-        return false;
-      });;
+        return false
+      });
   }
 
   getUsuarioPorId(id: number): Promise<any> {

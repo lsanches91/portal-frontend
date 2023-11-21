@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
     this.getAnimais();
     this.listarEspecies()
     this.listarRacas()
-    this.listaEstados()
+    this.verificaEstados()
   }
 
   async printCurrentPosition() {
@@ -53,25 +53,17 @@ export class HomePage implements OnInit {
     this.cidade = geocode.features[0].properties.city;
   };
 
-  listaEstados(){
-    this.estadoService.getAll().then((retorno) => {
-      this.estados = retorno
+  async verificaEstados() {
+    this.estadoService.getAll().then(async (estados) => {
+      if (estados.length == 0) {
+        this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
+        await this.estadoService.importEstados()
+        await this.cidadeService.importCidades()
+        this.estados = estados 
+      }
     }).catch((erro) => {
       console.log(erro);
     });
-  }
-
-  async verificaEstados() {
-    if (this.estados.length == 0) {
-      this.utilsService.presentToast("Importando estados e cidades...")
-      await this.estadoService.importEstados()
-      await this.cidadeService.importCidades()
-      this.estadoService.getAll().then((retorno) => {
-        this.estados = retorno
-      }).catch((erro) => {
-        console.log(erro);
-      });
-    }
   }
 
   listarEspecies() {
@@ -142,7 +134,7 @@ export class HomePage implements OnInit {
   aplicarFiltros() {
     // Verifica se algum filtro está ativo
     const algumFiltroAtivo = this.estado !== "" || this.nomeEspecie !== "" || this.nomeRaca !== "" || this.porte !== "" || this.idade !== "";
-  
+
     if (!algumFiltroAtivo) {
       this.animaisApresentados = this.animais;
       this.utilsService.presentToastSuccess("Apresentando todos os animais");
@@ -154,18 +146,18 @@ export class HomePage implements OnInit {
         const filtroNomeRaca = this.nomeRaca !== "" ? animal.raca.nome === this.nomeRaca : true;
         const filtroPorte = this.porte !== "" ? animal.porte === this.porte : true;
         const filtroIdade = this.idade !== "" ? animal.idade === this.idade : true;
-  
+
         // Retorna verdadeiro se todos os filtros passarem
         return filtroEstado && filtroNomeEspecie && filtroNomeRaca && filtroPorte && filtroIdade;
       });
-  
+
       if (this.animaisApresentados.length === 0) {
         this.utilsService.presentToastWarning("Nenhum animal foi encontrado!");
       } else {
         this.utilsService.presentToastSuccess("Animais filtrados com sucesso!");
       }
     }
-  
+
     this.openFiltros(false);
   }
 

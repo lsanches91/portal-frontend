@@ -5,6 +5,7 @@ import { EstadoService } from '../services/estado.service';
 import { CidadeService } from '../services/cidade.service';
 import { UtilsService } from '../services/utilidades.service';
 import { GeolocalizacaoService } from '../services/geolocalizacao.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -39,7 +40,8 @@ export class CadastroPage implements OnInit {
 
   constructor(private utilsService: UtilsService,
     private usuarioService: UsuarioService, private estadoService: EstadoService,
-    private cidadeService: CidadeService, private geolocalizacaoService: GeolocalizacaoService) {
+    private cidadeService: CidadeService, private geolocalizacaoService: GeolocalizacaoService,
+    private router:Router) {
     this.estadoService.getAll().then((retorno) => {
       this.estados = retorno
     }).catch((erro) => {
@@ -48,15 +50,16 @@ export class CadastroPage implements OnInit {
   }
 
   async verificaEstados() {
-    if (this.estados.length == 0) {
-      await this.estadoService.importEstados()
-      await this.cidadeService.importCidades()
-      this.estadoService.getAll().then((retorno) => {
-        this.estados = retorno
-      }).catch((erro) => {
-        console.log(erro);
-      });
-    }
+    this.estadoService.getAll().then(async (estados) => {
+      if (estados.length == 0) {
+        this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
+        await this.estadoService.importEstados()
+        await this.cidadeService.importCidades()
+        this.estados = estados 
+      }
+    }).catch((erro) => {
+      console.log(erro);
+    });
   }
 
   readonly cpfMask: MaskitoOptions = {
@@ -119,7 +122,7 @@ export class CadastroPage implements OnInit {
       const res = await this.usuarioService.cadastrar(usuario);
       if (res) {
         this.utilsService.presentToastSuccess("Usuário cadastrado com sucesso!");
-        window.location.href = "/perfil";
+        this.router.navigate(['/perfil']);
       }
     }
   }

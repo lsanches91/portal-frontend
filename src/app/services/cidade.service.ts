@@ -10,9 +10,7 @@ export class CidadeService {
   constructor(private http: HttpClient, private utilsService: UtilsService) { }
 
   async importCidades() {
-    const municipios_api = this.http.get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios").toPromise();
-
-    municipios_api.then((municipios: any) => {
+    this.http.get("https://servicodados.ibge.gov.br/api/v1/localidades/municipios").toPromise().then((municipios: any) => {
       municipios.forEach((municipio: any) => {
         const cidade: any = {
           nome: municipio.nome,

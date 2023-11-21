@@ -37,7 +37,7 @@ export class ResgatePage implements OnInit {
   constructor(private utilsService: UtilsService,
     private usuarioService: UsuarioService, private estadoService: EstadoService,
     private cidadeService: CidadeService, private geolocalizacaoService: GeolocalizacaoService,
-    private resgateService: ResgateService) {
+    private resgateService: ResgateService, private router:Router) {
     this.getUsuarioLogado()
     this.estadoService.getAll().then((retorno) => {
       this.estados = retorno
@@ -47,15 +47,16 @@ export class ResgatePage implements OnInit {
   }
 
   async verificaEstados() {
-    if (this.estados.length == 0) {
-      await this.estadoService.importEstados()
-      await this.cidadeService.importCidades()
-      this.estadoService.getAll().then((retorno) => {
-        this.estados = retorno
-      }).catch((erro) => {
-        console.log(erro);
-      });
-    }
+    this.estadoService.getAll().then(async (estados) => {
+      if (estados.length == 0) {
+        this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
+        await this.estadoService.importEstados()
+        await this.cidadeService.importCidades()
+        this.estados = estados 
+      }
+    }).catch((erro) => {
+      console.log(erro);
+    });
   }
 
   readonly cepMask: MaskitoOptions = {
@@ -112,7 +113,7 @@ export class ResgatePage implements OnInit {
       }
       let resposta = await this.resgateService.create(solicitacao).then((resultado) => {
         this.utilsService.presentToastSuccess("Solicitação de resgate enviada com sucesso");
-        window.location.href = "/home";
+        this.router.navigate(['/home']);
       }).catch((error) => {
         this.utilsService.presentToastError(error.error.error)
       })

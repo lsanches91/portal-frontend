@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginPage implements OnInit {
   email: string = "";
   senha: string = "";
 
-  constructor(private toastController: ToastController, private usuarioService: UsuarioService, private authentication: AuthenticationService) { }
+  constructor(private toastController: ToastController, private usuarioService: UsuarioService, private authentication: AuthenticationService, private router:Router) { }
 
   ngOnInit() {
     this.verificaLoginExistente();
@@ -31,7 +32,7 @@ export class LoginPage implements OnInit {
   async verificaLoginExistente() {
       var user = await this.usuarioService.getUsuarioLogado();
       if (user) {
-        window.location.href = "/perfil";
+        this.router.navigate(['/perfil'])
       }
   }
 
@@ -47,7 +48,7 @@ export class LoginPage implements OnInit {
       this.presentToast('Entrando...');
       const user = await this.usuarioService.getUsuario();
       await this.usuarioService.setUsuarioLogado(user);
-      window.location.href = "/perfil";
+      this.router.navigate(['/perfil']);
     }
   }
 

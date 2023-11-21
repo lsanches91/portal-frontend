@@ -71,7 +71,7 @@ export class PerfilUsuarioPage implements OnInit {
       this.estado = this.cidade.estado;
       console.log(this.usuarioLogado.situacao)
     }else{
-      window.location.href = "/login";
+      this.router.navigate(['/login']);
     }
   }
 

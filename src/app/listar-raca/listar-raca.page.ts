@@ -144,7 +144,7 @@ export class ListarRacaPage implements OnInit {
     }
     console.log(racaAtualizada)
     this.putRaca(racaAtualizada);
-    this.presentToast("Espécie atualizada com sucesso!");
+    this.presentToast("Raça atualizada com sucesso!");
     setTimeout(() => {
       this.openAtualizarRaca(false);
       window.location.reload();

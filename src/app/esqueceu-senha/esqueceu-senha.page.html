@@ -1,11 +1,10 @@
 <ion-content [fullscreen]="true">
   <div class="flex-center">
     <ion-card>
-      <!--<img alt="Logo PAPA" src="../../assets/papa-logo.png" /> -->
       <ion-card-content>
         <ion-item>
           <ion-input label="Email" labelPlacement="floating" placeholder="Insira o email" type="email" (keydown.enter)="enviarEmail()" [(ngModel)]="email"></ion-input>
-          <ion-icon name="person-outline"></ion-icon>
+          <ion-icon name="mail"></ion-icon>
         </ion-item>
         <ion-button id="enviar" color="primary" expand="block" (click)="enviarEmail()">Enviar Email</ion-button>
       </ion-card-content>
