@@ -38,8 +38,8 @@ export class PerfilUsuarioPage implements OnInit {
   logradouro: string = "";
   bairro: string = "";
   numero: string = "";
-  cidade: string = "";
-  uf: string = "";
+  cidade:any = {}
+  estado:any = {}
 
   constructor(
     private router:Router, 
@@ -68,7 +68,7 @@ export class PerfilUsuarioPage implements OnInit {
       this.bairro = this.usuarioLogado.bairro;
       this.numero = this.usuarioLogado.numero;
       this.cidade = this.usuarioLogado.cidade;
-      this.uf = this.usuarioLogado.uf;
+      this.estado = this.cidade.estado;
       console.log(this.usuarioLogado.situacao)
     }else{
       window.location.href = "/login";

@@ -50,12 +50,20 @@
               [(ngModel)]="novaOng.cep"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input label="Cidade" label-placement="floating" fill="solid" type="text"
-              [(ngModel)]="novaOng.cidade"></ion-input>
+            <ion-select label-placement="floating" [(ngModel)]="estadoSelecionado" [placeholder]="estadoSelecionado"
+              (ionChange)="onEstadoChange($event)" (click)="verificaEstados()">
+              <div slot="label">Estado<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of estados; let pos = index"
+                value="{{item.sigla}}">{{item.nome}}</ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input label="UF" label-placement="floating" fill="solid" type="text"
-              [(ngModel)]="novaOng.uf"></ion-input>
+            <ion-select label-placement="floating" [disabled]="selectDisabled" [(ngModel)]="cidadeSelecionada_id"
+              [placeholder]="cidadeSelecionada" (click)="verificaEstados()" (ionChange)="onCidadeChange($event)">
+              <div slot="label">Cidade<ion-text color="danger">*</ion-text></div>
+              <ion-select-option *ngFor="let item of cidades; let pos = index"
+                value="{{item.id}}">{{item.nome}}</ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-item>
             <ion-input label="Descrição" label-placement="floating" fill="solid" type="text"

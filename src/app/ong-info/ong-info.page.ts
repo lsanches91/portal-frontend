@@ -655,4 +655,41 @@ export class OngInfoPage implements OnInit {
     await this.verificaResponsavel();
     console.log(this.isResponsavel);
   }
+
+  public async confirmaExclusaoOng(pos: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar exclusão?',
+      buttons: [
+        {
+          text: 'Não',
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.removerOng(pos);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public removerOng(id:number){
+    console.log(id);
+    this.usuarioService.delete(id)
+    .then(() => {
+      this.presentToast("ONG excluída com sucesso!");
+      console.log("ONG Excluída.");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    })
+    .catch((erro) => {
+      console.log(erro);
+    });
+  }
+
+  editarONG(id:number){
+    this.router.navigate(['/editar-ong', id]);
+  }
 }

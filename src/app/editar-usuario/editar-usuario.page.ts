@@ -3,6 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario.service';
 import { MaskitoOptions, MaskitoElementPredicateAsync } from '@maskito/core';
+import { CidadeService } from '../services/cidade.service';
+import { UtilsService } from '../services/utilidades.service';
+import { GeolocalizacaoService } from '../services/geolocalizacao.service';
+import { EstadoService } from '../services/estado.service';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -11,8 +15,8 @@ import { MaskitoOptions, MaskitoElementPredicateAsync } from '@maskito/core';
 })
 export class EditarUsuarioPage implements OnInit {
 
-  usuarioSelecionado:any = {};
-  retorno!:any;
+  usuarioSelecionado: any = {};
+  retorno!: any;
 
   novoUsuario = {
     nome: "",
@@ -25,11 +29,20 @@ export class EditarUsuarioPage implements OnInit {
     logradouro: "",
     bairro: "",
     numero: "",
-    cidade: "",
-    uf: "",
+    cidade_id: 0,
     nivel: "C",
     situacao: "P",
   }
+
+  estados: any = [];
+  cidades: any = [];
+
+  estadoSelecionado: string = "";
+
+  cidadeSelecionada = ""
+  cidadeSelecionada_id = ""
+
+  selectDisabled: boolean = true;
 
   readonly cpfMask: MaskitoOptions = {
     mask: [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
@@ -41,19 +54,77 @@ export class EditarUsuarioPage implements OnInit {
 
   readonly maskPredicate: MaskitoElementPredicateAsync = async (el) => (el as HTMLIonInputElement).getInputElement();
 
-  constructor(private route:ActivatedRoute, public toastController: ToastController, private usuarioService: UsuarioService, private router:Router) {
+  constructor(private route: ActivatedRoute,
+    public toastController: ToastController,
+    private usuarioService: UsuarioService,
+    private cidadeService: CidadeService,
+    private estadoService: EstadoService,
+    private utilsService: UtilsService,
+    private geolocalizacaoService: GeolocalizacaoService,
+    private router: Router) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         const id = +params['id'];
         this.getSingleUsuario(id);
       }
     });
-   }
+  }
 
   ngOnInit() {
   }
 
-  getSingleUsuario(id:number){
+  async verificaEstados() {
+    if (this.estados.length == 0) {
+      await this.estadoService.importEstados()
+      await this.cidadeService.importCidades()
+      this.estadoService.getAll().then((retorno) => {
+        this.estados = retorno
+      }).catch((erro) => {
+        console.log(erro);
+      });
+    }
+  }
+
+  onEstadoChange(event: any) {
+    const sigla = event.detail.value
+    this.cidadeService.getCidadeByEstado(sigla).then((retorno) => {
+      this.cidades = retorno || {}
+      this.cidadeSelecionada = ""
+      this.selectDisabled = false
+    }).catch((erro) => {
+      console.log(erro);
+    })
+  }
+
+  onCidadeChange(event: any) {
+    const id = event.detail.value
+    this.cidadeService.getCidadeById(id).then((cidade: any) => {
+      this.cidadeSelecionada = cidade.nome
+      console.log(this.cidadeSelecionada)
+    }).catch((error: any) => {
+      this.utilsService.presentToastError(error.error.error);
+    });
+  }
+
+  async buscarEndereco() {
+    if (this.novoUsuario.cep == "") {
+      this.utilsService.presentToastWarning("Preencha o CEP")
+    } else {
+      let CEP = parseInt(this.novoUsuario.cep.replace(/\D/g, ''))
+      await this.geolocalizacaoService.getAddresByCEP(CEP).then(async (retorno: any) => {
+        this.novoUsuario.logradouro = retorno.logradouro
+        this.novoUsuario.bairro = retorno.bairro
+        await this.cidadeService.getCidadeByNome(retorno.uf, retorno.localidade).then((cidade: any) => {
+          this.cidadeSelecionada = cidade.nome
+          this.cidadeSelecionada_id = cidade.id
+          this.estadoSelecionado = cidade.estado_sigla
+          this.selectDisabled = false
+        })
+      })
+    }
+  }
+
+  getSingleUsuario(id: number) {
     this.usuarioService.getSingleusuario(id).then((usuario) => {
       this.usuarioSelecionado = usuario;
       this.novoUsuario = this.usuarioSelecionado;
@@ -62,8 +133,8 @@ export class EditarUsuarioPage implements OnInit {
     })
   }
 
-  putUsuario(usuario:any){
-    if(this.camposValidos(usuario)){
+  putUsuario(usuario: any) {
+    if (this.camposValidos(usuario)) {
       this.usuarioService.update(this.usuarioSelecionado.id, this.novoUsuario).then((usuario) => {
         this.retorno = usuario;
         console.log(this.retorno);
@@ -74,14 +145,14 @@ export class EditarUsuarioPage implements OnInit {
     }
   }
 
-  enviaUsuario(){
+  enviaUsuario() {
     this.putUsuario(this.novoUsuario);
     setTimeout(() => {
       this.voltaPagina();
-    }, 1000);    
+    }, 1000);
   }
 
-  voltaPagina(){
+  voltaPagina() {
     this.router.navigate([`perfil-usuario`]);
   }
 

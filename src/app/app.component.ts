@@ -24,8 +24,9 @@ export class AppComponent {
       this.appPages.push(
         { title: 'Conta', url: '/perfil', icon: 'person' },
         { title: 'Solicitar Resgate', url: '/resgate', icon: 'archive' },
-        { title: 'Área do Colaborador', url: '/area-colaborador', icon: 'business' },        
-        { title: 'Meu Perfil', url: '/perfil-usuario', icon: 'person' }
+        { title: 'Área do Colaborador', url: '/area-colaborador', icon: 'business' },
+        { title: 'Meu Perfil', url: '/perfil-usuario', icon: 'person' },
+        { title: 'Cadastrar ONG', url: '/cadastrar-ong', icon: 'business' }
       );
       if (usuarioLogado.nivel == "A") {
         this.appPages.push(

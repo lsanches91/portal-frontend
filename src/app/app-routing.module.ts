@@ -165,7 +165,7 @@ const routes: Routes = [
   {
     path: 'avaliar-ongs',
     loadChildren: () => import('./avaliar-ongs/avaliar-ongs.module').then(m => m.AvaliarOngsPageModule),
-    canActivate: [UserAuthorizationService]
+    canActivate: [AdministratorAuthorizationService]
   },
   {
     path: 'listar-especie',
@@ -232,8 +232,6 @@ const routes: Routes = [
     loadChildren: () => import('./listar-denuncia/listar-denuncia.module').then( m => m.ListarDenunciaPageModule),
     canActivate: [UserAuthorizationService]
   }
-
-
 ];
 
 @NgModule({

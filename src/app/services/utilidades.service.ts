@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 
-export const urlBase: string = 'https://backend-portal-y4f9.onrender.com';
+export const urlBase: string = 'http://localhost:3333';
 export const urlFront: string = 'http://localhost:8888';
 
 @Injectable({

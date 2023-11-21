@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { OngService } from '../services/ong.service';
 import { UsuarioService } from '../services/usuario.service';
-import { ColaboradorService } from '../services/colaborador.service';
 import { MaskitoElementPredicateAsync, MaskitoOptions } from '@maskito/core';
+import { EstadoService } from '../services/estado.service';
+import { CidadeService } from '../services/cidade.service';
+import { GeolocalizacaoService } from '../services/geolocalizacao.service';
+import { UtilsService } from '../services/utilidades.service';
 
 @Component({
   selector: 'app-cadastrar-ong',
@@ -26,17 +29,83 @@ export class CadastrarOngPage {
     numero: "",
     bairro: "",
     cep: "",
-    cidade:"",
-    uf: "",
+    cidade_id: 0,
     descricao: "",
     situacao: "",
     logo_path: "",
     usuario_id: 0
   }
 
+  estados: any = [];
+  cidades: any = [];
+
+  estadoSelecionado: string = "";
+
+  cidadeSelecionada = ""
+  cidadeSelecionada_id = ""
+
+  selectDisabled: boolean = true;
+
   constructor(private route: ActivatedRoute, public toastController: ToastController,
-    private ongService: OngService, private router: Router, private usuarioService: UsuarioService, private colaboradorService: ColaboradorService) {
+    private ongService: OngService, 
+    private estadoService: EstadoService,
+    private router: Router, 
+    private usuarioService: UsuarioService,
+    private cidadeService: CidadeService,
+    private utilsService: UtilsService,
+    private geolocalizacaoService: GeolocalizacaoService) {
       
+  }
+
+  async verificaEstados() {
+    if (this.estados.length == 0) {
+      await this.estadoService.importEstados()
+      await this.cidadeService.importCidades()
+      this.estadoService.getAll().then((retorno) => {
+        this.estados = retorno
+      }).catch((erro) => {
+        console.log(erro);
+      });
+    }
+  }
+
+  onEstadoChange(event: any) {
+    const sigla = event.detail.value
+    this.cidadeService.getCidadeByEstado(sigla).then((retorno) => {
+      this.cidades = retorno || {}
+      this.cidadeSelecionada = ""
+      this.selectDisabled = false
+    }).catch((erro) => {
+      console.log(erro);
+    })
+  }
+
+  onCidadeChange(event: any) {
+    const id = event.detail.value
+    this.cidadeService.getCidadeById(id).then((cidade:any)=>{
+      this.cidadeSelecionada = cidade.nome
+      console.log(this.cidadeSelecionada)
+    }).catch((error:any) => {
+      this.utilsService.presentToastError(error.error.error);
+    });
+  }
+
+  async buscarEndereco() {
+    if (this.novaOng.cep == "") {
+      this.utilsService.presentToastWarning("Preencha o CEP")
+    } else {
+      let CEP = parseInt(this.novaOng.cep.replace(/\D/g, ''))
+      await this.geolocalizacaoService.getAddresByCEP(CEP).then(async (retorno: any) => {
+        this.novaOng.logradouro = retorno.logradouro
+        this.novaOng.bairro = retorno.bairro
+        await this.cidadeService.getCidadeByNome(retorno.uf, retorno.localidade).then((cidade: any) => {
+          this.cidadeSelecionada = cidade.nome
+          this.cidadeSelecionada_id = cidade.id
+          this.estadoSelecionado = cidade.estado_sigla
+          this.selectDisabled = false
+        })
+      })
+    }
   }
 
   readonly telMask: MaskitoOptions = {
@@ -72,6 +141,7 @@ export class CadastrarOngPage {
     }
     this.usuario = await this.usuarioService.getUsuarioLogado();
     this.novaOng.usuario_id = this.usuario.id;
+    this.novaOng.cidade_id = parseInt(this.cidadeSelecionada_id);
     console.log(this.novaOng);
     if (this.usuario.nivel == 'A') {
       this.novaOng.situacao = 'Aprovada';

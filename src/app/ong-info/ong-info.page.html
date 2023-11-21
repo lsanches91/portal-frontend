@@ -37,6 +37,8 @@
             {{ongSelecionada.descricao}}
           </ion-card-content>
         </ion-card>
+        <ion-button fill="clear" (click)="editarONG(ongSelecionada.id)">Editar</ion-button>
+        <ion-button fill="clear" (click)="confirmaExclusaoOng(ongSelecionada.id)">Excluir</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
