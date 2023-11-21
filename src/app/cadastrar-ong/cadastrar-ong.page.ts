@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { OngService } from '../services/ong.service';
+import { ColaboradorService } from '../services/colaborador.service';
 import { UsuarioService } from '../services/usuario.service';
 import { MaskitoElementPredicateAsync, MaskitoOptions } from '@maskito/core';
 import { EstadoService } from '../services/estado.service';
@@ -47,7 +48,8 @@ export class CadastrarOngPage {
   selectDisabled: boolean = true;
 
   constructor(private route: ActivatedRoute, public toastController: ToastController,
-    private ongService: OngService, 
+    private ongService: OngService,
+    private colaboradorService: ColaboradorService,
     private estadoService: EstadoService,
     private router: Router, 
     private usuarioService: UsuarioService,
@@ -154,7 +156,7 @@ export class CadastrarOngPage {
         
         this.retorno = retorno;
 
-       /* var colaborador = {
+       var colaborador = {
           usuario_id: this.usuario.id,
           ong_id: this.retorno.id,
           situacao: "Ativado",
@@ -166,7 +168,6 @@ export class CadastrarOngPage {
         }).catch((erro) => {
           console.log(erro);
         })
-*/
         this.presentToast("Ong adicionada com sucesso!");
       }).catch((erro) => {
         console.log(erro);
