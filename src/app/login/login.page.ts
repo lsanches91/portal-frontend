@@ -51,6 +51,7 @@ export class LoginPage implements OnInit {
       this.presentToast('Entrando...');
       const user = await this.usuarioService.getUsuario();
       await this.usuarioService.setUsuarioLogado(user);
+      localStorage.setItem('recarregarPagina', 'true');
       setTimeout(() => {
         this.router.navigate(['/perfil']);
       }, 1000);      
