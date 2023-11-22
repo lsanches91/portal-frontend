@@ -65,6 +65,11 @@ export class EditarOngPage implements OnInit {
       if (params['id']) {
         const id = +params['id'];
         this.getSingleOng(id);
+        this.estadoService.getAll().then((retorno) => {
+          this.estados = retorno
+        }).catch((erro) => {
+          console.log(erro);
+        });
       }
     });
   }
@@ -75,7 +80,6 @@ export class EditarOngPage implements OnInit {
         this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
         await this.estadoService.importEstados()
         await this.cidadeService.importCidades()
-        this.estados = estados 
       }
     }).catch((erro) => {
       console.log(erro);

@@ -42,8 +42,12 @@ export class HomePage implements OnInit {
     private utilsService: UtilsService, private estadoService: EstadoService, private cidadeService: CidadeService) {
     this.getAnimais();
     this.listarEspecies()
-    this.listarRacas()
-    this.verificaEstados()
+    this.listarRacas() 
+    this.estadoService.getAll().then((retorno) => {
+      this.estados = retorno
+    }).catch((erro) => {
+      console.log(erro);
+    });
   }
 
   async printCurrentPosition() {
@@ -59,7 +63,6 @@ export class HomePage implements OnInit {
         this.utilsService.presentToast("Importando estados e cidades, isso pode demorar um pouco...")
         await this.estadoService.importEstados()
         await this.cidadeService.importCidades()
-        this.estados = estados 
       }
     }).catch((erro) => {
       console.log(erro);

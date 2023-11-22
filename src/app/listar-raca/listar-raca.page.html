@@ -121,8 +121,8 @@
               [(ngModel)]="racaSelecionada.nome"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-select fill="solid" label="Espécie" interface="popover" labelPlacement="stacked" [placeholder]="racaSelecionada.especie.nome_comum"
-              [(ngModel)]="racaSelecionada.especie.id">
+            <ion-select fill="solid" label="Espécie" interface="popover" labelPlacement="stacked"
+              [(ngModel)]="racaSelecionada.especie_id">
               <ion-select-option *ngFor="let item of especies; let pos = index"
                 value="{{item.id}}">{{item.nome_comum}}</ion-select-option>
             </ion-select>
