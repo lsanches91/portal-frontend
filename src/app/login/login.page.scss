@@ -5,16 +5,22 @@
     height: 100%;
 }
 
-ion-button[color="dark"]{
+ion-button[color="dark"] {
     text-transform: initial;
 }
 
-ion-img{
+ion-img {
     width: 200px;
     height: 150px;
 }
 
-.login-logo{
+.login-logo {
     display: flex;
     justify-content: center;
+}
+
+.img-logo {
+    content: url('../../assets/img/logo.png');
+    width: 150px;
+    height: 150px;
 }
