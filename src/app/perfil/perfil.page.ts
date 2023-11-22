@@ -27,9 +27,26 @@ export class PerfilPage implements OnInit {
   novaSenha: string = ""
   confirmaSenha:string = ""
 
-  constructor(private usuarioService: UsuarioService, private authenticaton: AuthenticationService, private router: Router, private utilsService: UtilsService) {}
+  recarregarPagina = localStorage.getItem('recarregarPagina') === 'true';
+
+  constructor(private usuarioService: UsuarioService, 
+    private authenticaton: AuthenticationService, 
+    private router: Router, 
+    private utilsService: UtilsService) {
+      
+    }
 
   ngOnInit() {
+    console.log(this.recarregarPagina);
+    if(this.recarregarPagina == true){
+      this.recarregarPagina = false;
+      localStorage.setItem('recarregarPagina', 'false');
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+    
     this.verificaUsuarioLogado()
   }
 
@@ -53,6 +70,8 @@ export class PerfilPage implements OnInit {
   deslogar(){
     this.authenticaton.logout()
     this.utilsService.presentToastSuccess("Conta deslogada com sucesso!")
+    this.recarregarPagina = true;
+    localStorage.setItem('recarregarPagina', 'true');
     location.reload()
   }
 
