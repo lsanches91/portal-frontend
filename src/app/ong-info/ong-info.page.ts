@@ -330,7 +330,8 @@ export class OngInfoPage implements OnInit {
           porte: adocaoAtualizada.animal.porte,
           descricao: adocaoAtualizada.animal.descricao,
           situacao: "A",
-          foto_path: adocaoAtualizada.animal.foto_path.replace(/^http:\/\/localhost:3333\/uploads\//, ''),
+          //foto_path: adocaoAtualizada.animal.foto_path.replace(/^https:\/\/localhost:3333\/uploads\//, ''),
+          foto_path: adocaoAtualizada.animal.foto_path.replace(/^https:\/\/backend-portal-y4f9\.onrender\.com\/uploads\//, ''),
           ong_id: adocaoAtualizada.animal.ong_id,
           raca_id: adocaoAtualizada.animal.raca_id
         }
@@ -358,7 +359,8 @@ export class OngInfoPage implements OnInit {
           porte: adocaoAtualizada.animal.porte,
           descricao: adocaoAtualizada.animal.descricao,
           situacao: "P",
-          foto_path: adocaoAtualizada.animal.foto_path.replace(/^http:\/\/localhost:3333\/uploads\//, ''),
+          //foto_path: adocaoAtualizada.animal.foto_path.replace(/^https:\/\/localhost:3333\/uploads\//, ''),
+          foto_path: adocaoAtualizada.animal.foto_path.replace(/^https:\/\/backend-portal-y4f9\.onrender\.com\/uploads\//, ''),
           ong_id: adocaoAtualizada.animal.ong_id,
           raca_id: adocaoAtualizada.animal.raca_id
         }
@@ -387,7 +389,8 @@ export class OngInfoPage implements OnInit {
           porte: adocaoAtualizada.animal.porte,
           descricao: adocaoAtualizada.animal.descricao,
           situacao: "D",
-          foto_path: adocaoAtualizada.animal.foto_path.replace(/^http:\/\/localhost:3333\/uploads\//, ''),
+          //foto_path: adocaoAtualizada.animal.foto_path.replace(/^http:\/\/localhost:3333\/uploads\//, ''),
+          foto_path: adocaoAtualizada.animal.foto_path.replace(/^https:\/\/backend-portal-y4f9\.onrender\.com\/uploads\//, ''),
           ong_id: adocaoAtualizada.animal.ong_id,
           raca_id: adocaoAtualizada.animal.raca_id
         }

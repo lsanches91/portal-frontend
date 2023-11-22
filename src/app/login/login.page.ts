@@ -13,7 +13,10 @@ export class LoginPage implements OnInit {
   email: string = "";
   senha: string = "";
 
-  constructor(private toastController: ToastController, private usuarioService: UsuarioService, private authentication: AuthenticationService, private router:Router) { }
+  constructor(private toastController: ToastController, 
+    private usuarioService: UsuarioService, 
+    private authentication: AuthenticationService, 
+    private router:Router) { }
 
   ngOnInit() {
     this.verificaLoginExistente();
@@ -48,7 +51,9 @@ export class LoginPage implements OnInit {
       this.presentToast('Entrando...');
       const user = await this.usuarioService.getUsuario();
       await this.usuarioService.setUsuarioLogado(user);
-      this.router.navigate(['/perfil']);
+      setTimeout(() => {
+        this.router.navigate(['/perfil']);
+      }, 1000);      
     }
   }
 
