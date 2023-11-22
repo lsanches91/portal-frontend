@@ -87,6 +87,9 @@ export class FormularioAdocaoPage implements OnInit {
         if (resposta) {
           this.utils.presentToastSuccess("Solicitação de adoção enviada com sucesso");
           this.router.navigate(['/home']);
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         }
       }
     }
