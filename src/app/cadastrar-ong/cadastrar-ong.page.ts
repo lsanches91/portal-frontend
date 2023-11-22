@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { OngService } from '../services/ong.service';
+import { ColaboradorService } from '../services/colaborador.service';
 import { UsuarioService } from '../services/usuario.service';
 import { MaskitoElementPredicateAsync, MaskitoOptions } from '@maskito/core';
 import { EstadoService } from '../services/estado.service';
@@ -47,18 +48,19 @@ export class CadastrarOngPage {
   selectDisabled: boolean = true;
 
   constructor(private route: ActivatedRoute, public toastController: ToastController,
-    private ongService: OngService, 
+    private ongService: OngService,
     private estadoService: EstadoService,
-    private router: Router, 
+    private colaboradorService: ColaboradorService,
+    private router: Router,
     private usuarioService: UsuarioService,
     private cidadeService: CidadeService,
     private utilsService: UtilsService,
     private geolocalizacaoService: GeolocalizacaoService) {
-      this.estadoService.getAll().then((retorno) => {
-        this.estados = retorno
-      }).catch((erro) => {
-        console.log(erro);
-      });
+    this.estadoService.getAll().then((retorno) => {
+      this.estados = retorno
+    }).catch((erro) => {
+      console.log(erro);
+    });
   }
 
   async verificaEstados() {
@@ -86,10 +88,10 @@ export class CadastrarOngPage {
 
   onCidadeChange(event: any) {
     const id = event.detail.value
-    this.cidadeService.getCidadeById(id).then((cidade:any)=>{
+    this.cidadeService.getCidadeById(id).then((cidade: any) => {
       this.cidadeSelecionada = cidade.nome
       console.log(this.cidadeSelecionada)
-    }).catch((error:any) => {
+    }).catch((error: any) => {
       this.utilsService.presentToastError(error.error.error);
     });
   }
@@ -117,7 +119,7 @@ export class CadastrarOngPage {
   };
 
   readonly cepMask: MaskitoOptions = {
-    mask: [ /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/],
+    mask: [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/],
   };
 
   readonly cnpjMask: MaskitoOptions = {
@@ -155,10 +157,10 @@ export class CadastrarOngPage {
     }
     if (this.camposValidos(ong)) {
       this.ongService.create(this.novaOng).then((retorno) => {
-        
+
         this.retorno = retorno;
 
-       /* var colaborador = {
+        var colaborador = {
           usuario_id: this.usuario.id,
           ong_id: this.retorno.id,
           situacao: "Ativado",
@@ -170,7 +172,7 @@ export class CadastrarOngPage {
         }).catch((erro) => {
           console.log(erro);
         })
-*/
+
         this.presentToast("Ong adicionada com sucesso!");
       }).catch((erro) => {
         console.log(erro);
