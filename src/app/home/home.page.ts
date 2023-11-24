@@ -37,6 +37,7 @@ export class HomePage implements OnInit {
   porte: string = ""
   estado: string = ""
 
+
   constructor(private ongService: OngService, private router: Router, private geolocalizacao: GeolocalizacaoService,
     private animalService: AnimalService, private especieService: EspecieService, private racaService: RacaService,
     private utilsService: UtilsService, private estadoService: EstadoService, private cidadeService: CidadeService) {
@@ -166,6 +167,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.home = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    
   }
 
 }

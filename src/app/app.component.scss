@@ -47,7 +47,6 @@ ion-menu.md ion-item {
   --padding-start: 10px;
   --padding-end: 10px;
   border-radius: 4px;
-  --background: #E9F1F7;
 }
 
 ion-menu.md ion-item.selected {
@@ -124,13 +123,13 @@ ion-split-pane {
   --side-max-width: 350px;
 }
 
-.menu-logo{
+.menu-logo {
   display: flex;
   justify-content: center;
 }
 
-.login-logo{
+.login-logo {
   content: url('../assets/img/logo.png');
-  width: 150px; 
+  width: 150px;
   height: 150px;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -12,17 +12,18 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
   email: string = "";
   senha: string = "";
+  isMostrarLogo: boolean = window.innerWidth <= 600;
 
-  constructor(private toastController: ToastController, 
-    private usuarioService: UsuarioService, 
-    private authentication: AuthenticationService, 
-    private router:Router) { }
+  constructor(private toastController: ToastController,
+    private usuarioService: UsuarioService,
+    private authentication: AuthenticationService,
+    private router: Router) { }
 
   ngOnInit() {
     this.verificaLoginExistente();
   }
 
-  async presentToast(mensagem:string) {
+  async presentToast(mensagem: string) {
     const toast = await this.toastController.create({
       message: mensagem,
       duration: 1500,
@@ -33,10 +34,10 @@ export class LoginPage implements OnInit {
   }
 
   async verificaLoginExistente() {
-      var user = await this.usuarioService.getUsuarioLogado();
-      if (user) {
-        this.router.navigate(['/perfil'])
-      }
+    var user = await this.usuarioService.getUsuarioLogado();
+    if (user) {
+      this.router.navigate(['/perfil'])
+    }
   }
 
   async logar() {
@@ -54,8 +55,22 @@ export class LoginPage implements OnInit {
       localStorage.setItem('recarregarPagina', 'true');
       setTimeout(() => {
         this.router.navigate(['/perfil']);
-      }, 1000);      
+      }, 1000);
     }
+  }
+
+  mostrarLogo() {
+    return this.isMostrarLogo;
+  }
+
+  // Atualiza o status da div com base na largura da tela
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.atualizarExibicaoLogo();
+  }
+
+  private atualizarExibicaoLogo(): void {
+    this.isMostrarLogo = window.innerWidth <= 600;
   }
 
 }

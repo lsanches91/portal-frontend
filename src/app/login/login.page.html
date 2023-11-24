@@ -3,7 +3,7 @@
     <ion-card>
       <!--<img alt="Logo PAPA" src="../../assets/papa-logo.png" /> -->
       <ion-card-content>
-        <div class="login-logo">
+        <div *ngIf="mostrarLogo()" class="login-logo">
           <img class="img-logo">
         </div>
         <ion-item>

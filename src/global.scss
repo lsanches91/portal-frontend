@@ -25,9 +25,6 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-ion-content {
-    --background: #c488f2;
-}
 
 ion-card.ion-active {
     cursor: pointer;
@@ -36,6 +33,17 @@ ion-card.ion-active {
     &:hover {
         background-color: #f4f4f4;
         /* ou qualquer outra cor desejada */
+    }
+}
+
+ion-content {
+    --background: #c488f2;
+}
+
+// Adiciona uma media query para ajustar a cor de fundo para o tema escuro
+@media (prefers-color-scheme: dark) {
+    ion-content {
+        --background: #6f42a9;
     }
 }
 

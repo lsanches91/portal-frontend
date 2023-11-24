@@ -4,6 +4,7 @@ import { AnimalService } from '../services/animal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../services/usuario.service';
 import { SolicitacaoAdocaoService } from '../services/solicitacao-adocao.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-formulario-adocao',
@@ -41,7 +42,8 @@ export class FormularioAdocaoPage implements OnInit {
     private usuarioService: UsuarioService,
     private utils: UtilsService,
     private solicitacao: SolicitacaoAdocaoService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private navCtrl: NavController) {
     this.route.params.subscribe(params => {
       if (params['id']) {
         const id = +params['id'];
@@ -86,10 +88,7 @@ export class FormularioAdocaoPage implements OnInit {
         resposta = this.animalService.update(this.animal.id, this.animal);
         if (resposta) {
           this.utils.presentToastSuccess("Solicitação de adoção enviada com sucesso");
-          this.router.navigate(['/home']);
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
+          this.navCtrl.navigateForward('/home');
         }
       }
     }

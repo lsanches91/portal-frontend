@@ -1,14 +1,14 @@
 <ion-app>
-  <ion-split-pane contentId="main-content" style="background-color: #E9F1F7;">
+  <ion-split-pane contentId="main-content" >
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
-        <ion-list id="inbox-list" style="background-color: #E9F1F7;">
+        <ion-list id="inbox-list" >
           <div class="menu-logo">
           <img class="login-logo">
           </div>
           <br>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" style="background-color: #E9F1F7;">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected" style="background-color: #E9F1F7;">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" >
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected" >
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
@@ -16,6 +16,6 @@
         </ion-list>
       </ion-content>
     </ion-menu>
-    <ion-router-outlet id="main-content" style="background-color: #E9F1F7;"></ion-router-outlet>
+    <ion-router-outlet id="main-content" ></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

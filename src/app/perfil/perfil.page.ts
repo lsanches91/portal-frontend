@@ -44,7 +44,7 @@ export class PerfilPage implements OnInit {
 
       setTimeout(() => {
         window.location.reload();
-      }, 500);
+      }, 800);
     }
     
     this.verificaUsuarioLogado()
